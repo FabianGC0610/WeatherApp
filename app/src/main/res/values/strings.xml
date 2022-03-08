@@ -13,4 +13,19 @@
     <string name="pressure">Pressure</string>
     <string name="humidity">Humidity</string>
     <string name="sevenDays">7 días</string>
+    <string name="textSensacion">Sensacion:</string>
+
+    <string name="consultando">Retraiving</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="dev_name">FGC</string>
+    <string name="created_by">Created by</string>
+    <string name="logo">Personal Weather</string>
+    <string name="no_location_detected">Cant access to location. Make sure the location service is activated on your device.</string>
+    <string name="permission_denied_explanation">Permission denied, is required to use this app.</string>
+    <string name="permission_retionale">Location permission is required to use this app.</string>
+    <string name="settings">Settings</string>
+    <string name="canceled_action">Canceled Action</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
 </resources>

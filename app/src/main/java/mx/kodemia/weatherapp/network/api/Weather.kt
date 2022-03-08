@@ -1,6 +1,7 @@
 package mx.kodemia.weatherapp.network.api
 
 import mx.kodemia.weatherapp.model.WeatherEntity
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,6 +15,6 @@ interface Weather {
         @Query("units") units: String?,
         @Query("lang") lang: String?, //Para el idioma
         @Query("appid") appid: String
-    ): WeatherEntity
+    ): Response<WeatherEntity>
 
 }

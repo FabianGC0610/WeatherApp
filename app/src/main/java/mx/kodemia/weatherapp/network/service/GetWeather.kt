@@ -15,7 +15,7 @@ class GetWeather(context: Context) {
 
     //Se crea la funcion para mandar la peticion con los parametros necesarios para realizarla
     //Con un tipo de retorno del modelo de la respuesta
-    suspend fun getWeatherService(lat: String, lon: String, units: String?, lang: String?, appid: String): WeatherEntity {
+    suspend fun getWeatherService(lat: String, lon: String, units: String?, lang: String?, appid: String): Response<WeatherEntity> {
         return withContext(Dispatchers.IO){
             val response = retrofit.getWeatherByLoc(lat, lon, units, lang, appid)
             response

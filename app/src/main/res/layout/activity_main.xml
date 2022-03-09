@@ -124,117 +124,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
-                    <ImageView
-                        android:id="@+id/imageViewWind"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView"
-                        app:srcCompat="@drawable/wind"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewWind"
-                        tools:text="13 km/h" />
-
-                    <TextView
-                        android:id="@+id/textViewWind"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/wind"
-                        android:textColor="@color/medium_white"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-                    <ImageView
-                        android:id="@+id/imageViewHumidity"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView"
-                        app:srcCompat="@drawable/humidity"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewWind"
-                        tools:text="200" />
-
-                    <TextView
-                        android:id="@+id/textViewHumidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/humidity"
-                        android:textColor="@color/medium_white"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-                    <ImageView
-                        android:id="@+id/imageViewPressure"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView"
-                        app:srcCompat="@drawable/pressure"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewWind"
-                        tools:text="1042" />
-
-                    <TextView
-                        android:id="@+id/textViewPressure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/pressure"
-                        android:textColor="@color/medium_white"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guidelineCardViewBottomLeft"
                         android:layout_width="wrap_content"
@@ -260,7 +149,7 @@
                         app:tint="@color/white" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/textViewTempSymbol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="-16dp"
@@ -284,6 +173,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_InfoHome"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

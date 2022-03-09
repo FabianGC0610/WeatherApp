@@ -17,6 +17,8 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -28,9 +30,11 @@ import mx.kodemia.weatherapp.core.SharedPreferencesInstance
 import mx.kodemia.weatherapp.core.checkPermissions
 import mx.kodemia.weatherapp.core.startLocationPermissionRequest
 import mx.kodemia.weatherapp.databinding.ActivityMainBinding
+import mx.kodemia.weatherapp.model.RecyclerInfo
 import mx.kodemia.weatherapp.model.WeatherEntity
 import mx.kodemia.weatherapp.network.service.GetWeather
 import mx.kodemia.weatherapp.utils.checkForInternet
+import mx.kodemia.weatherapp.view.adapters.InfoAdapter
 import mx.kodemia.weatherapp.viewmodels.MainActivityViewModel
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -40,6 +44,9 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivityError"
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
+
+    private val listInfo: MutableList<RecyclerInfo> = mutableListOf()
+    private val listIncons: MutableList<Int> = mutableListOf()
 
     var unit = "metric"
     var languageCode = "es"
@@ -70,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         }else{
             getLastLocation(){ location ->
                 mandarDatosWeather(latitude,longitude,unit,languageCode,"37fb2ab875e61b9769e410901358661b")
-                observers(this,location)
+                observers(this,location,binding.recyclerViewInfoHome)
             }
         }
     }
@@ -89,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     private fun mandarDatosWeather(lat: String, lon: String, units: String?, lang: String?, appid: String) {
         viewModel.getWeather(lat, lon, units, lang, appid)
     }
-     private fun observers(context: Context, location: Location){
+     private fun observers(context: Context, location: Location, recyclerView: RecyclerView){
 
          viewModel.getWeatherResponse.observe(this) {weatherEntity: WeatherEntity ->
              shared.guardarTemperatura(weatherEntity)
@@ -102,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                          latitude = location.latitude.toString()
                          longitude = location.longitude.toString()
                          formatResponse(weatherEntity)
+                         initRecycler(recyclerView, weatherEntity)
                      }else{
                          showError("Sin acceso a Internet")
                          binding.detailsContainer.isVisible = false
@@ -183,6 +191,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initRecycler(recyclerView: RecyclerView, weatherEntity: WeatherEntity){
+
+        listInfo.add(RecyclerInfo(weatherEntity.current.humidity.toString(),R.string.humidity))
+        listIncons.add(R.drawable.humidity)
+
+        listInfo.add(RecyclerInfo(weatherEntity.current.pressure.toString(),R.string.pressure))
+        listIncons.add(R.drawable.pressure)
+
+        listInfo.add(RecyclerInfo(weatherEntity.current.wind_speed.toString(),R.string.wind))
+        listIncons.add(R.drawable.wind)
+
+        listInfo.add(RecyclerInfo(weatherEntity.current.sunrise.toString(),R.string.sunrise))
+        listIncons.add(R.drawable.sunrise)
+
+        listInfo.add(RecyclerInfo(weatherEntity.current.sunset.toString(),R.string.sunset))
+        listIncons.add(R.drawable.sunset)
+
+        val adaptador = InfoAdapter(this,listInfo,listIncons)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+            adapter = adaptador
+        }
+    }
+
     private fun formatResponse(weatherEntity: WeatherEntity){
 
         var unitSymbol = "°C"
@@ -192,7 +224,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         try {
-            val temp = "${weatherEntity.current.temp.toInt()}$unitSymbol"
+            val temp = "${weatherEntity.current.temp.toInt()}"
             val cityName = ""//weatherEntity.name
             val country = ""//weatherEntity.sys.country
             val address = "$cityName, $country"
@@ -231,6 +263,7 @@ class MainActivity : AppCompatActivity() {
                 addressTextView.text = address
                 dateTextView.text = updateAt
                 temperatureTextView.text = temp
+                textViewTempSymbol.text = unitSymbol
                 statusTextView.text = status
                 //tempMinTextView.text = tempMin
                 //tempMaxTextViewMine.text = tempMax

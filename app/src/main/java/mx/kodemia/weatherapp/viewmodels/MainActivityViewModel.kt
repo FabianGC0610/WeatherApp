@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import mx.kodemia.weatherapp.model.OneCall
 import mx.kodemia.weatherapp.model.WeatherEntity
 import mx.kodemia.weatherapp.network.service.GetWeather
 
@@ -15,10 +16,10 @@ class MainActivityViewModel: ViewModel() {
     lateinit var serviceGetWeather: GetWeather
 
     //LiveDatas
-    val getWeatherResponse = MutableLiveData<WeatherEntity>()
+    val getWeatherResponse = MutableLiveData<OneCall>()
 
-    fun onCreate(context: Context){
-        serviceGetWeather = GetWeather(context)
+    fun onCreate(){
+        serviceGetWeather = GetWeather()
     }
 
     //Funcion

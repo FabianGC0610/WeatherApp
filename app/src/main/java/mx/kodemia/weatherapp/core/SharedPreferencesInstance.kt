@@ -3,6 +3,7 @@ package mx.kodemia.weatherapp.core
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import mx.kodemia.weatherapp.model.OneCall
 import mx.kodemia.weatherapp.model.WeatherEntity
 
 object SharedPreferencesInstance {
@@ -30,7 +31,7 @@ object SharedPreferencesInstance {
     }
 
     // Se guarda el elemento individual de una transaccion
-    fun guardarTemperatura(weatherEntity: WeatherEntity){
+    fun guardarTemperatura(weatherEntity: OneCall){
         with(editor){
             putString("temperatura", weatherEntity.current.temp.toString())
             apply()

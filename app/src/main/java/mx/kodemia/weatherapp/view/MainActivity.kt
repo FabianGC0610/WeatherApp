@@ -30,10 +30,13 @@ import mx.kodemia.weatherapp.core.SharedPreferencesInstance
 import mx.kodemia.weatherapp.core.checkPermissions
 import mx.kodemia.weatherapp.core.startLocationPermissionRequest
 import mx.kodemia.weatherapp.databinding.ActivityMainBinding
+import mx.kodemia.weatherapp.model.Current
+import mx.kodemia.weatherapp.model.OneCall
 import mx.kodemia.weatherapp.model.RecyclerInfo
 import mx.kodemia.weatherapp.model.WeatherEntity
 import mx.kodemia.weatherapp.network.service.GetWeather
 import mx.kodemia.weatherapp.utils.checkForInternet
+import mx.kodemia.weatherapp.view.adapters.HoursAdapter
 import mx.kodemia.weatherapp.view.adapters.InfoAdapter
 import mx.kodemia.weatherapp.viewmodels.MainActivityViewModel
 import java.lang.Exception
@@ -90,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.onCreate(context = this)
+        viewModel.onCreate()
     }
 
     private fun mandarDatosWeather(lat: String, lon: String, units: String?, lang: String?, appid: String) {
@@ -98,18 +101,16 @@ class MainActivity : AppCompatActivity() {
     }
      private fun observers(context: Context, location: Location, recyclerView: RecyclerView){
 
-         viewModel.getWeatherResponse.observe(this) {weatherEntity: WeatherEntity ->
+         viewModel.getWeatherResponse.observe(this) {weatherEntity: OneCall ->
              shared.guardarTemperatura(weatherEntity)
              shared.guardarToken()
              lifecycleScope.launch {
                  weatherEntity.apply {
-                     Log.e(TAG,this.current.temp.toString())
-
+                     //Log.e("Temp por hora", this.current.hourly[1].temp.toString())
                      if(checkForInternet(context)) {
                          latitude = location.latitude.toString()
                          longitude = location.longitude.toString()
                          formatResponse(weatherEntity)
-                         initRecycler(recyclerView, weatherEntity)
                      }else{
                          showError("Sin acceso a Internet")
                          binding.detailsContainer.isVisible = false
@@ -183,7 +184,6 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 latitude = location.latitude.toString()
                 longitude = location.longitude.toString()
-                //formatResponse()
             }
         }else{
             showError("Sin acceso a Internet")
@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initRecycler(recyclerView: RecyclerView, weatherEntity: WeatherEntity){
+    private fun initRecycler(recyclerView: RecyclerView, weatherEntity: OneCall){
 
         listInfo.add(RecyclerInfo(weatherEntity.current.humidity.toString(),R.string.humidity))
         listIncons.add(R.drawable.humidity)
@@ -215,7 +215,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun formatResponse(weatherEntity: WeatherEntity){
+    private fun initRecyclerHours(hours: List<Current>, recyclerView: RecyclerView){
+        val adaptador = HoursAdapter(this,hours)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+            adapter = adaptador
+        }
+    }
+
+    private fun formatResponse(weatherEntity: OneCall){
 
         var unitSymbol = "°C"
 
@@ -275,6 +283,8 @@ class MainActivity : AppCompatActivity() {
                 detailsContainer.isVisible = true
                 //feelsLiketextView.text = feelsLike
                 iconImageView.load(iconUrl)
+                initRecycler(recyclerViewInfoHome, weatherEntity)
+                initRecyclerHours(weatherEntity.hourly,recyclerViewHours)
             }
 
             showIndicator(false)

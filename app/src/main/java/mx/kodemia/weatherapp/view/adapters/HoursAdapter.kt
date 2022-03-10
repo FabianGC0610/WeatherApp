@@ -33,7 +33,7 @@ class HoursAdapter(private val context: Context, private val listHours: List<Cur
             val dateFormatter = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
             val hour = dateFormatter.format(Date(hours.dt*1000))
 
-            tv_temp_hours.text = hours.temp.toString()
+            tv_temp_hours.text = hours.temp.toInt().toString() + "°"
             iv_icon_hours.load(iconUrl)
             tv_time_hours.text = hour
 

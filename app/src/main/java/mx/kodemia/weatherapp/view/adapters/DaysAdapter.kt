@@ -1,5 +1,6 @@
 package mx.kodemia.weatherapp.view.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +26,9 @@ class DaysAdapter(private val context: Context, private val listDays: List<Daily
         return DaysAdapter.DaysHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: DaysAdapter.DaysHolder, position: Int) {
-        val days = listDays.get(position)
+        val days = listDays.get(position + 1)
         with(holder){
 
             val icon = days.weather.first().icon
@@ -36,14 +38,22 @@ class DaysAdapter(private val context: Context, private val listDays: List<Daily
 
             tv_current_day.text = day
             tv_forecast_days.text = days.weather.first().main
-            tv_temp_in_day.text = days.temp.day.toString()
-            tv_temp_in_night.text = days.temp.night.toString()
+            if(days.temp.day < 0){
+                tv_temp_in_day.text = "-" + days.temp.day.toInt().toString() + "°"
+            }else{
+                tv_temp_in_day.text = "+" + days.temp.day.toInt().toString() + "°"
+            }
+            if (days.temp.night < 0){
+                tv_temp_in_night.text = "-" + days.temp.night.toInt().toString() + "°"
+            }else{
+                tv_temp_in_night.text = "+" + days.temp.night.toInt().toString() + "°"
+            }
             iv_icon_days.load(iconUrl)
 
         }
     }
 
-    override fun getItemCount(): Int = listDays.size
+    override fun getItemCount(): Int = listDays.size - 1
 
     class DaysHolder(view: View): RecyclerView.ViewHolder(view){
         val iv_icon_days: ImageView = view.findViewById(R.id.imageViewIconDays)

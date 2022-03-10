@@ -28,5 +28,12 @@
     <string name="canceled_action">Canceled Action</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="api_key">37fb2ab875e61b9769e410901358661b</string>
+    <string name="imageviewiconhoursdescription">Image relate to Weather Forecast at Hours</string>
+    <string name="_4">-4°</string>
+    <string name="_35">+35°</string>
+    <string name="status_item_days">Clear</string>
+    <string name="days_item_days">Fri</string>
+    <string name="image_description_item_days">Image relate to Weather Forecast at Day</string>
+    <string name="icon_item_info_descripcion">Icon Related with general information of current day</string>
 
 </resources>

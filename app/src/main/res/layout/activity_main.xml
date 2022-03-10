@@ -338,7 +338,7 @@
                             tools:text="Tomorrow" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/textViewTempInDayTom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="20"
@@ -350,7 +350,7 @@
                             tools:text="20" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/textViewTempInNightTom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
@@ -358,20 +358,20 @@
                             android:textColor="@color/medium_white"
                             android:textSize="32sp"
                             android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="@+id/textView3"
-                            app:layout_constraintStart_toEndOf="@+id/textView3"
+                            app:layout_constraintBottom_toBottomOf="@+id/textViewTempInDayTom"
+                            app:layout_constraintStart_toEndOf="@+id/textViewTempInDayTom"
                             tools:text="/17°" />
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/textViewForecastTom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Rainy"
                             android:textColor="@color/medium_white"
                             android:textSize="16sp"
-                            app:layout_constraintStart_toStartOf="@+id/textView3"
-                            app:layout_constraintTop_toBottomOf="@+id/textView3"
+                            app:layout_constraintStart_toStartOf="@+id/textViewTempInDayTom"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewTempInDayTom"
                             tools:text="Rainy" />
 
                         <androidx.recyclerview.widget.RecyclerView

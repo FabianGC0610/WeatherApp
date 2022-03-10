@@ -30,10 +30,7 @@ import mx.kodemia.weatherapp.core.SharedPreferencesInstance
 import mx.kodemia.weatherapp.core.checkPermissions
 import mx.kodemia.weatherapp.core.startLocationPermissionRequest
 import mx.kodemia.weatherapp.databinding.ActivityMainBinding
-import mx.kodemia.weatherapp.model.Current
-import mx.kodemia.weatherapp.model.OneCall
-import mx.kodemia.weatherapp.model.RecyclerInfo
-import mx.kodemia.weatherapp.model.WeatherEntity
+import mx.kodemia.weatherapp.model.*
 import mx.kodemia.weatherapp.network.service.GetWeather
 import mx.kodemia.weatherapp.utils.checkForInternet
 import mx.kodemia.weatherapp.view.adapters.HoursAdapter
@@ -79,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             }else{
                 getLastLocation(){ location ->
                     mandarDatosWeather(latitude,longitude,unit,languageCode,"37fb2ab875e61b9769e410901358661b")
+                    mandarDatosCity(latitude,longitude,getString(R.string.api_key))
                     observers()
                 }
             }
@@ -98,11 +96,25 @@ class MainActivity : AppCompatActivity() {
     private fun mandarDatosWeather(lat: String, lon: String, units: String?, lang: String?, appid: String) {
         viewModel.getWeather(lat, lon, units, lang, appid)
     }
+
+    private fun mandarDatosCity(lat: String, lon: String, appid: String){
+        viewModel.getCity(lat, lon, appid)
+    }
+
      private fun observers(){
          viewModel.getWeatherResponse.observe(this) {weatherEntity: OneCall ->
              lifecycleScope.launch {
                  weatherEntity.apply {
                      formatResponse(weatherEntity)
+                 }
+             }
+
+         }
+
+         viewModel.getCityResponse.observe(this){ cityEntity: List<CityEntity> ->
+             lifecycleScope.launch {
+                 cityEntity.apply {
+                     formatResponseCity(cityEntity)
                  }
              }
 
@@ -175,6 +187,8 @@ class MainActivity : AppCompatActivity() {
             }else{
                 showError("Sin acceso a Internet")
                 binding.detailsContainer.isVisible = false
+                binding.detailsContainerCardView.isVisible = false
+                binding.detailsContainerGeneral.isVisible = false
             }
     }
 
@@ -207,6 +221,16 @@ class MainActivity : AppCompatActivity() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
             adapter = adaptador
+        }
+    }
+
+    private fun formatResponseCity(cityEntity: List<CityEntity>){
+        val cityName = cityEntity[0].name
+        val country = cityEntity[0].country
+        val address = "$cityName, $country"
+
+        binding.apply {
+            addressTextView.text = address
         }
     }
 
@@ -255,7 +279,6 @@ class MainActivity : AppCompatActivity() {
             //binding.addressTextView.text = address
 
             binding.apply {
-                addressTextView.text = address
                 dateTextView.text = updateAt
                 temperatureTextView.text = temp
                 textViewTempSymbol.text = unitSymbol
@@ -268,6 +291,8 @@ class MainActivity : AppCompatActivity() {
                 //pressureTextViewMine.text = pressure
                 //humidityTextViewMine.text = humidity
                 detailsContainer.isVisible = true
+                detailsContainerCardView.isVisible = true
+                detailsContainerGeneral.isVisible = true
                 //feelsLiketextView.text = feelsLike
                 iconImageView.load(iconUrl)
                 initRecycler(recyclerViewInfoHome, weatherEntity)

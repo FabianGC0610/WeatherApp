@@ -20,26 +20,27 @@
             android:id="@+id/textViewInfoInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewIconInfo" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewIconInfo"
+            tools:text="4.5km/h"/>
 
         <TextView
             android:id="@+id/textViewConceptInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="TextView"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewInfoInfo" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewInfoInfo"
+            tools:ignore="TextContrastCheck"
+            tools:text="Wind" />
 
         <ImageView
             android:id="@+id/imageViewIconInfo"
@@ -47,10 +48,12 @@
             android:layout_height="24dp"
             android:layout_marginHorizontal="46dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/icon_item_info_descripcion"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/wind"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            tools:ignore="ImageContrastCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -299,6 +299,10 @@ class MainActivity : AppCompatActivity() {
                     detailsContainerFirstView.isVisible = false
                     detailsContainerSecondView.isVisible = true
                 }
+                buttonExpandCardView.setOnClickListener {
+                    detailsContainerFirstView.isVisible = true
+                    detailsContainerSecondView.isVisible = false
+                }
                 //windTextViewMine.text = wind
                 //pressureTextViewMine.text = pressure
                 //humidityTextViewMine.text = humidity

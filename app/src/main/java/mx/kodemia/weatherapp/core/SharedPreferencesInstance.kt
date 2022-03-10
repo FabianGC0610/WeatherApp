@@ -56,4 +56,14 @@ object SharedPreferencesInstance {
         return sharedPreferences.getString("token", null)
     }
 
+    fun guardarVerificacionInternet(internet: Boolean){
+        with(editor){
+            putBoolean("tieneInternet",internet)
+        }
+    }
+
+    fun obtenerVerificacionInternet(): Boolean{
+        return sharedPreferences.getBoolean("tieneInternet",false)
+    }
+
 }

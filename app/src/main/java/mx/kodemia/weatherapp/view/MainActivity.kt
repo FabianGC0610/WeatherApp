@@ -70,19 +70,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+            init()
 
-        init()
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        if(!checkPermissions(this)){
-            requestPermissions()
-        }else{
-            getLastLocation(){ location ->
-                mandarDatosWeather(latitude,longitude,unit,languageCode,"37fb2ab875e61b9769e410901358661b")
-                observers(this,location,binding.recyclerViewInfoHome)
+            if(!checkPermissions(this)){
+                requestPermissions()
+            }else{
+                getLastLocation(){ location ->
+                    mandarDatosWeather(latitude,longitude,unit,languageCode,"37fb2ab875e61b9769e410901358661b")
+                    observers()
+                }
             }
-        }
     }
 
     private fun init(){
@@ -99,23 +98,11 @@ class MainActivity : AppCompatActivity() {
     private fun mandarDatosWeather(lat: String, lon: String, units: String?, lang: String?, appid: String) {
         viewModel.getWeather(lat, lon, units, lang, appid)
     }
-     private fun observers(context: Context, location: Location, recyclerView: RecyclerView){
-
+     private fun observers(){
          viewModel.getWeatherResponse.observe(this) {weatherEntity: OneCall ->
-             shared.guardarTemperatura(weatherEntity)
-             shared.guardarToken()
              lifecycleScope.launch {
                  weatherEntity.apply {
-                     //Log.e("Temp por hora", this.current.hourly[1].temp.toString())
-                     if(checkForInternet(context)) {
-                         latitude = location.latitude.toString()
-                         longitude = location.longitude.toString()
-                         formatResponse(weatherEntity)
-                     }else{
-                         showError("Sin acceso a Internet")
-                         binding.detailsContainer.isVisible = false
-                     }
-
+                     formatResponse(weatherEntity)
                  }
              }
 
@@ -180,15 +167,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewData(location: Location){
-        if(checkForInternet(this)) {
-            lifecycleScope.launch {
-                latitude = location.latitude.toString()
-                longitude = location.longitude.toString()
+            if(checkForInternet(this)) {
+                lifecycleScope.launch {
+                    latitude = location.latitude.toString()
+                    longitude = location.longitude.toString()
+                }
+            }else{
+                showError("Sin acceso a Internet")
+                binding.detailsContainer.isVisible = false
             }
-        }else{
-            showError("Sin acceso a Internet")
-            binding.detailsContainer.isVisible = false
-        }
     }
 
     private fun initRecycler(recyclerView: RecyclerView, weatherEntity: OneCall){
@@ -311,25 +298,25 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         Log.i(TAG, "onRequestPermissionsResult")
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            when {
-                //Si el flujo es interrumpido, la solicitud de permiso es cancelada y se reciben arrays vacios.
-                grantResults.isEmpty() -> Log.i(TAG, "La interaccion del usuario fue cancelada")
+                when {
+                    //Si el flujo es interrumpido, la solicitud de permiso es cancelada y se reciben arrays vacios.
+                    grantResults.isEmpty() -> Log.i(TAG, "La interaccion del usuario fue cancelada")
 
-                //Permiso Otorgado
-                (grantResults[0] == PackageManager.PERMISSION_GRANTED) -> getLastLocation(this::setupViewData)
+                    //Permiso Otorgado
+                    (grantResults[0] == PackageManager.PERMISSION_GRANTED) -> getLastLocation(this::setupViewData)
 
-                else -> {
-                    showSnackbar(R.string.permission_denied_explanation, R.string.settings) {
-                        //Construye el intent que muestra la ventaa de configuracion del app
-                        val intent = Intent().apply {
-                            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                            data = Uri.fromParts("package", "mx.kodemia.climadefabiruchis", null)
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    else -> {
+                        showSnackbar(R.string.permission_denied_explanation, R.string.settings) {
+                            //Construye el intent que muestra la ventaa de configuracion del app
+                            val intent = Intent().apply {
+                                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                                data = Uri.fromParts("package", "mx.kodemia.climadefabiruchis", null)
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            startActivity(intent)
                         }
-                        startActivity(intent)
                     }
                 }
-            }
         }
     }
 

@@ -142,42 +142,6 @@ class MainActivity : AppCompatActivity() {
 
      }
 
-    private fun requestPermissions(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )){
-            //Provide an additional rationale to the user. This would happen if the user denied the
-            // request previously, but didn´t check the "Don´t ask again" checkbox.
-            Log.i(TAG, "Displaying permission rationale to provide additional context.")
-            showSnackbar(R.string.permission_retionale, android.R.string.ok)
-            {
-                //Request permission
-                startLocationPermissionRequest(this)
-            }
-        }else{
-            //Request permission. It´s possible this can be auto answered if device policy
-            //Si la configuracion del dispositivo define el permiso a un estado prefefinido o
-            //si  el usuario anteriormente activo "No preguntar de nuevo"
-            Log.i(TAG, "Solicitando permiso")
-            startLocationPermissionRequest(this)
-        }
-    }
-
-    private fun showSnackbar(
-        snackStrId: Int,
-        actionStrId: Int = 0,
-        listener: View.OnClickListener? = null
-    ){
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), getString(snackStrId),
-            BaseTransientBottomBar.LENGTH_INDEFINITE
-        )
-
-        if(actionStrId != 0 && listener != null){
-            snackbar.setAction(getString(actionStrId), listener)
-        }
-        snackbar.show()
-    }
-
     @SuppressLint( "MissingPermission")
     private fun getLastLocation(onLocation: (location: Location) -> Unit){
         Log.d(TAG, "Aqui estoy: $latitude Long: $longitude")
@@ -208,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                 showError("Sin acceso a Internet")
                 binding.detailsContainerFirstView.isVisible = false
                 binding.detailsContainerFirstView.isVisible = false
+                binding.errorContainer.isVisible = false
             }
     }
 
@@ -364,12 +329,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showError(message: String){
-        Toast.makeText(this,message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showIndicator(visible: Boolean){
-        binding.progressBarIndicator.isVisible = visible
+    private fun requestPermissions(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )){
+            //Provide an additional rationale to the user. This would happen if the user denied the
+            // request previously, but didn´t check the "Don´t ask again" checkbox.
+            Log.i(TAG, "Displaying permission rationale to provide additional context.")
+            showSnackbar(R.string.permission_retionale, android.R.string.ok)
+            {
+                //Request permission
+                startLocationPermissionRequest(this)
+            }
+        }else{
+            //Request permission. It´s possible this can be auto answered if device policy
+            //Si la configuracion del dispositivo define el permiso a un estado prefefinido o
+            //si  el usuario anteriormente activo "No preguntar de nuevo"
+            Log.i(TAG, "Solicitando permiso")
+            startLocationPermissionRequest(this)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -400,6 +378,29 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun showError(message: String){
+        Toast.makeText(this,message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showIndicator(visible: Boolean){
+        binding.progressBarIndicator.isVisible = visible
+    }
+
+    private fun showSnackbar(
+        snackStrId: Int,
+        actionStrId: Int = 0,
+        listener: View.OnClickListener? = null
+    ){
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), getString(snackStrId),
+            BaseTransientBottomBar.LENGTH_INDEFINITE
+        )
+
+        if(actionStrId != 0 && listener != null){
+            snackbar.setAction(getString(actionStrId), listener)
+        }
+        snackbar.show()
     }
 
 }

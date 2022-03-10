@@ -46,5 +46,7 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="button_expand_cardview">button_to_expand_cardView</string>
     <string name="icon_calendar">icon_to_represent_the_calendar_of_seven_first_days</string>
+    <string name="unidad_temperatura">Unidad</string>
+    <string name="messages_header">Configuraciones Generales</string>
 
 </resources>

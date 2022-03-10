@@ -2,6 +2,7 @@ package mx.kodemia.weatherapp.view
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -80,6 +81,10 @@ class MainActivity : AppCompatActivity() {
                     observers()
                 }
             }
+    }
+
+    private fun IntentSettings() {
+        startActivity(Intent(this,SettingsActivity::class.java))
     }
 
     private fun init(){
@@ -323,6 +328,9 @@ class MainActivity : AppCompatActivity() {
                 buttonMinimizaCardView.setOnClickListener {
                     detailsContainerFirstView.isVisible = false
                     detailsContainerSecondView.isVisible = true
+                }
+                buttonSettingsFirstView.setOnClickListener {
+                    IntentSettings()
                 }
 
                 textViewTempInDayTom.text = tempInDayTom

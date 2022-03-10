@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import mx.kodemia.weatherapp.core.SharedPreferencesInstance
 
 fun checkForInternet(context: Context): Boolean{
     //Registrar la actividad con el servicio connectivity manager
@@ -18,8 +19,10 @@ fun checkForInternet(context: Context): Boolean{
         return when {
             //Indica si la red usa transporte WiFi o tiene conectividad WiFi
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+
             //Indica si la red tiene conectividad por datos moviles
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+
 
             else -> false
         }

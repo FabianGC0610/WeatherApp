@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".view.MainActivity">
+    tools:context=".view.MainActivity"
+    android:id="@+id/detailsContainer">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -56,7 +57,7 @@
                         app:tint="@color/white" />
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/addressTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
@@ -70,17 +71,17 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/iconImageView"
                         android:layout_width="250dp"
                         android:layout_height="250dp"
                         android:layout_marginTop="32dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        app:layout_constraintTop_toBottomOf="@+id/addressTextView"
                         tools:srcCompat="@tools:sample/avatars" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/temperatureTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="150dp"
                         android:text="21"
@@ -88,28 +89,28 @@
                         android:textSize="124sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                        app:layout_constraintTop_toBottomOf="@+id/iconImageView" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/statusTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Thunderstorm"
                         android:textColor="@color/white"
                         android:textSize="24sp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView3"
-                        app:layout_constraintStart_toStartOf="@+id/textView3"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                        app:layout_constraintEnd_toEndOf="@+id/temperatureTextView"
+                        app:layout_constraintStart_toStartOf="@+id/temperatureTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/temperatureTextView" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/dateTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Monday, 17 May"
                         android:textColor="@color/white"
-                        app:layout_constraintEnd_toEndOf="@+id/textView4"
-                        app:layout_constraintStart_toStartOf="@+id/textView4"
-                        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                        app:layout_constraintEnd_toEndOf="@+id/statusTextView"
+                        app:layout_constraintStart_toStartOf="@+id/statusTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/statusTextView" />
 
                     <View
                         android:id="@+id/dividerCardView"
@@ -121,118 +122,7 @@
                         android:background="@color/light_white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-                    <ImageView
-                        android:id="@+id/imageViewWind"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView"
-                        app:srcCompat="@drawable/wind"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewWind"
-                        tools:text="13 km/h" />
-
-                    <TextView
-                        android:id="@+id/textViewWind"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/wind"
-                        android:textColor="@color/medium_white"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-                    <ImageView
-                        android:id="@+id/imageViewHumidity"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView"
-                        app:srcCompat="@drawable/humidity"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewWind"
-                        tools:text="200" />
-
-                    <TextView
-                        android:id="@+id/textViewHumidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/humidity"
-                        android:textColor="@color/medium_white"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomLeft"
-                        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-                    <ImageView
-                        android:id="@+id/imageViewPressure"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView"
-                        app:srcCompat="@drawable/pressure"
-                        app:tint="@color/white" />
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintTop_toBottomOf="@+id/imageViewWind"
-                        tools:text="1042" />
-
-                    <TextView
-                        android:id="@+id/textViewPressure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/pressure"
-                        android:textColor="@color/medium_white"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/guidelineCardViewBottomRight"
-                        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                        app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guidelineCardViewBottomLeft"
@@ -252,24 +142,46 @@
                         android:id="@+id/imageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView"
-                        app:layout_constraintEnd_toStartOf="@+id/textView"
-                        app:layout_constraintTop_toTopOf="@+id/textView"
+                        app:layout_constraintBottom_toBottomOf="@+id/addressTextView"
+                        app:layout_constraintEnd_toStartOf="@+id/addressTextView"
+                        app:layout_constraintTop_toTopOf="@+id/addressTextView"
                         app:srcCompat="@drawable/ic_baseline_location"
                         app:tint="@color/white" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/textViewTempSymbol"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="-16dp"
                         android:layout_marginTop="24dp"
                         android:text="°"
                         android:textColor="@color/medium_white"
                         android:textSize="48sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/textView3"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                        app:layout_constraintStart_toEndOf="@+id/temperatureTextView"
+                        app:layout_constraintTop_toBottomOf="@+id/iconImageView" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarIndicator"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="@color/white"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_InfoHome"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/dividerCardView" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -306,7 +218,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_hours"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

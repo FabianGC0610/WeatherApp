@@ -9,5 +9,5 @@ data class Current(
     val pressure: Int,
     val humidity: Int,
     val wind_speed: Double,
-    val weather: List<Weather>
+    val weather: List<Weather>,
 )

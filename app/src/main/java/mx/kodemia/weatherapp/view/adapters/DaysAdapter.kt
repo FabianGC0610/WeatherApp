@@ -43,9 +43,7 @@ class DaysAdapter(private val context: Context, private val listDays: List<Daily
         }
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount(): Int = listDays.size
 
     class DaysHolder(view: View): RecyclerView.ViewHolder(view){
         val iv_icon_days: ImageView = view.findViewById(R.id.imageViewIconDays)

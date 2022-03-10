@@ -33,6 +33,7 @@ import mx.kodemia.weatherapp.databinding.ActivityMainBinding
 import mx.kodemia.weatherapp.model.*
 import mx.kodemia.weatherapp.network.service.GetWeather
 import mx.kodemia.weatherapp.utils.checkForInternet
+import mx.kodemia.weatherapp.view.adapters.DaysAdapter
 import mx.kodemia.weatherapp.view.adapters.HoursAdapter
 import mx.kodemia.weatherapp.view.adapters.InfoAdapter
 import mx.kodemia.weatherapp.viewmodels.MainActivityViewModel
@@ -186,9 +187,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }else{
                 showError("Sin acceso a Internet")
-                binding.detailsContainer.isVisible = false
-                binding.detailsContainerCardView.isVisible = false
-                binding.detailsContainerGeneral.isVisible = false
+                binding.detailsContainerFirstView.isVisible = false
+                binding.detailsContainerFirstView.isVisible = false
             }
     }
 
@@ -221,6 +221,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
             adapter = adaptador
+        }
+    }
+
+    private fun initRecyclerDays(days: List<Daily>, recyclerView: RecyclerView){
+        val adapterView = DaysAdapter(this,days)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapterView
         }
     }
 
@@ -287,16 +295,20 @@ class MainActivity : AppCompatActivity() {
                 //tempMaxTextViewMine.text = tempMax
                 //sunriseTextViewMine.text = sunriseFormat
                 //sunsetTextViewMine.text = sunsetFormat
+                buttonShowDays.setOnClickListener {
+                    detailsContainerFirstView.isVisible = false
+                    detailsContainerSecondView.isVisible = true
+                }
                 //windTextViewMine.text = wind
                 //pressureTextViewMine.text = pressure
                 //humidityTextViewMine.text = humidity
-                detailsContainer.isVisible = true
-                detailsContainerCardView.isVisible = true
-                detailsContainerGeneral.isVisible = true
+                detailsContainerFirstView.isVisible = true
+                detailsContainerSecondView.isVisible = false
                 //feelsLiketextView.text = feelsLike
                 iconImageView.load(iconUrl)
                 initRecycler(recyclerViewInfoHome, weatherEntity)
                 initRecyclerHours(weatherEntity.hourly,recyclerViewHours)
+                initRecyclerDays(weatherEntity.daily,recyclerViewDays)
             }
 
             showIndicator(false)

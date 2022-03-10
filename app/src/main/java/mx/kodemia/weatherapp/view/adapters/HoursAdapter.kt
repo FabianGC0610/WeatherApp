@@ -28,8 +28,8 @@ class HoursAdapter(private val context: Context, private val listHours: List<Cur
         val hours = listHours.get(position)
         with(holder){
 
-            val icon = hours.weather.first().icon
-            val iconUrl = "https://openweathermap.org/img/w/$icon.png"
+            val icon = hours.weather.first().icon.replace('n','d')
+            val iconUrl = context.resources.getIdentifier("ic_weather_$icon","drawable", context.packageName)
             val dateFormatter = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
             val hour = dateFormatter.format(Date(hours.dt*1000))
 

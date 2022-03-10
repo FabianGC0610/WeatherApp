@@ -31,9 +31,9 @@ class DaysAdapter(private val context: Context, private val listDays: List<Daily
         val days = listDays.get(position + 1)
         with(holder){
 
-            val icon = days.weather.first().icon
-            val iconUrl = "https://openweathermap.org/img/w/$icon.png"
-            val dateFormatter = SimpleDateFormat("EEE", java.util.Locale.ENGLISH)
+            val icon = days.weather.first().icon.replace('n','d')
+            val iconUrl = context.resources.getIdentifier("ic_weather_$icon","drawable", context.packageName)
+            val dateFormatter = SimpleDateFormat("EEEE", java.util.Locale.ENGLISH)
             val day = dateFormatter.format(Date(days.dt*1000))
 
             tv_current_day.text = day

@@ -77,6 +77,16 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions()
             }else{
                 getLastLocation(){ location ->
+                    if(units){
+                        unit = "imperial"
+                    }else{
+                        unit = "metric"
+                    }
+                    if(language){
+                        languageCode = "en"
+                    }else{
+                        languageCode = "es"
+                    }
                     mandarDatosWeather(latitude,longitude,unit,languageCode,"37fb2ab875e61b9769e410901358661b")
                     mandarDatosCity(latitude,longitude,getString(R.string.api_key))
                     observers()
@@ -333,6 +343,9 @@ class MainActivity : AppCompatActivity() {
                 buttonShowHours.setOnClickListener {
                     detailsContainerFirstView.isVisible = true
                     detailsContainerSecondView.isVisible = false
+                }
+                buttonSettingsSecondView.setOnClickListener {
+                    IntentSettings()
                 }
 
                 detailsContainerFirstView.isVisible = true

@@ -37,8 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                tools:ignore="MissingConstraints"
-                tools:visibility="visible">
+                tools:ignore="MissingConstraints">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/materialCardFirstView"
@@ -257,7 +256,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/materialCardSecondView"

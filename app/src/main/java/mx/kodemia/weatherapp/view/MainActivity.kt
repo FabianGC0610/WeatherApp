@@ -299,11 +299,11 @@ class MainActivity : AppCompatActivity() {
             val humidity = "${weatherEntity.current.humidity}%"
             val feelsLike =
                 getString(R.string.textSensacion) + " ${weatherEntity.current.feels_like.toInt()}$unitSymbol"
-            val icon = weatherEntity.current.weather[0].icon
-            val iconUrl = "https://openweathermap.org/img/w/$icon.png"
+            val icon = weatherEntity.current.weather[0].icon.replace('n','d')
+            val iconUrl = resources.getIdentifier("ic_weather_$icon", "drawable", packageName)
 
-            val iconSecond = weatherEntity.daily[1].weather.first().icon
-            val iconUrlSecond = "https://openweathermap.org/img/w/$iconSecond.png"
+            val iconSecond = weatherEntity.daily[1].weather.first().icon.replace('n','d')
+            val iconUrlSecond = resources.getIdentifier("ic_weather_$iconSecond","drawable", packageName)
             val tempInDayTom = weatherEntity.daily[1].temp.day.toInt().toString()
             val tempInNightTom = "/" + weatherEntity.daily[1].temp.night.toInt().toString() + unitSymbol
             var statusTom = ""
@@ -322,13 +322,20 @@ class MainActivity : AppCompatActivity() {
                     detailsContainerFirstView.isVisible = false
                     detailsContainerSecondView.isVisible = true
                 }
-
+                buttonMinimizaCardView.setOnClickListener {
+                    detailsContainerFirstView.isVisible = false
+                    detailsContainerSecondView.isVisible = true
+                }
 
                 textViewTempInDayTom.text = tempInDayTom
                 textViewTempInNightTom.text = tempInNightTom
                 textViewForecastTom.text = statusTom
                 iconImageViewSecondView.load(iconUrlSecond)
                 buttonExpandCardView.setOnClickListener {
+                    detailsContainerFirstView.isVisible = true
+                    detailsContainerSecondView.isVisible = false
+                }
+                buttonShowHours.setOnClickListener {
                     detailsContainerFirstView.isVisible = true
                     detailsContainerSecondView.isVisible = false
                 }

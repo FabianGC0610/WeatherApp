@@ -35,5 +35,6 @@
     <string name="days_item_days">Fri</string>
     <string name="image_description_item_days">Image relate to Weather Forecast at Day</string>
     <string name="icon_item_info_descripcion">Icon Related with general information of current day</string>
+    <string name="Today">Hoy</string>
 
 </resources>

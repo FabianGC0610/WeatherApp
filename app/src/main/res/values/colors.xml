@@ -11,4 +11,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="medium_white">#AAFFFFFF</color>
     <color name="light_white">#40FFFFFF</color>
+    <color name="azullogo">#FF2196F3</color>
 </resources>

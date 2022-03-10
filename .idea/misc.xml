@@ -9,8 +9,10 @@
         <entry key="..\:/Proyectos_Android_Kodemia/WeatherApp/app/src/main/res/drawable/grandient_mainview.xml" value="0.154" />
         <entry key="..\:/Proyectos_Android_Kodemia/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Proyectos_Android_Kodemia/WeatherApp/app/src/main/res/layout/content_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Proyectos_Android_Kodemia/WeatherApp/app/src/main/res/layout/item_cardview_days.xml" value="0.22826086956521738" />
         <entry key="..\:/Proyectos_Android_Kodemia/WeatherApp/app/src/main/res/layout/item_cardview_hours.xml" value="0.4" />
         <entry key="..\:/Proyectos_Android_Kodemia/WeatherApp/app/src/main/res/layout/item_cardview_info.xml" value="0.22826086956521738" />
+        <entry key="..\:/Proyectos_Android_Kodemia/WeatherApp/app/src/main/res/layout/item_draview_days.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>

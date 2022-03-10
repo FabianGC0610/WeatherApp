@@ -43,7 +43,6 @@ class HoursAdapter(private val context: Context, private val listHours: List<Cur
     override fun getItemCount(): Int = listHours.size
 
     class HoursHolder(view: View): RecyclerView.ViewHolder(view){
-        val cardView: MaterialCardView = view.findViewById(R.id.cardView_item_hours)
         val iv_icon_hours: ImageView = view.findViewById(R.id.imageViewIconHours)
         val tv_time_hours: TextView = view.findViewById(R.id.textViewTimeHours)
         val tv_temp_hours: TextView = view.findViewById(R.id.textViewTempHours)

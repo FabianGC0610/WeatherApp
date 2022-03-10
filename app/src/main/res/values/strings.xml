@@ -27,5 +27,6 @@
     <string name="settings">Settings</string>
     <string name="canceled_action">Canceled Action</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="api_key">37fb2ab875e61b9769e410901358661b</string>
 
 </resources>

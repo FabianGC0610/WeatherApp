@@ -42,5 +42,7 @@
     <string name="unidad_temperatura">Unidad</string>
     <string name="messages_header">Configuraciones Generales</string>
     <string name="regresar"><![CDATA[<- Regresar]]></string>
+    <string name="error_message">Acaba de suceder un error del servidor, por favor vuelve más tarde</string>
+    <string name="error_image">error_image</string>
 
 </resources>

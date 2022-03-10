@@ -16,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -75,11 +76,30 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions()
             }else{
                 getLastLocation(){ location ->
+                    if(units){
+                        unit = "imperial"
+                    }else{
+                        unit = "metric"
+                    }
+                    if(language){
+                        languageCode = "en"
+                    }else{
+                        languageCode = "es"
+                    }
                     mandarDatosWeather(latitude,longitude,unit,languageCode,"37fb2ab875e61b9769e410901358661b")
                     mandarDatosCity(latitude,longitude,getString(R.string.api_key))
                     observers()
                 }
             }
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        units = sharedPreferences.getBoolean("unitsApp", false)
+        language = sharedPreferences.getBoolean("languageApp", false)
+    }
+
+    private fun IntentSettings() {
+        startActivity(Intent(this,SettingsActivity::class.java))
+        finish()
     }
 
     private fun init(){
@@ -122,42 +142,6 @@ class MainActivity : AppCompatActivity() {
 
      }
 
-    private fun requestPermissions(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )){
-            //Provide an additional rationale to the user. This would happen if the user denied the
-            // request previously, but didn´t check the "Don´t ask again" checkbox.
-            Log.i(TAG, "Displaying permission rationale to provide additional context.")
-            showSnackbar(R.string.permission_retionale, android.R.string.ok)
-            {
-                //Request permission
-                startLocationPermissionRequest(this)
-            }
-        }else{
-            //Request permission. It´s possible this can be auto answered if device policy
-            //Si la configuracion del dispositivo define el permiso a un estado prefefinido o
-            //si  el usuario anteriormente activo "No preguntar de nuevo"
-            Log.i(TAG, "Solicitando permiso")
-            startLocationPermissionRequest(this)
-        }
-    }
-
-    private fun showSnackbar(
-        snackStrId: Int,
-        actionStrId: Int = 0,
-        listener: View.OnClickListener? = null
-    ){
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), getString(snackStrId),
-            BaseTransientBottomBar.LENGTH_INDEFINITE
-        )
-
-        if(actionStrId != 0 && listener != null){
-            snackbar.setAction(getString(actionStrId), listener)
-        }
-        snackbar.show()
-    }
-
     @SuppressLint( "MissingPermission")
     private fun getLastLocation(onLocation: (location: Location) -> Unit){
         Log.d(TAG, "Aqui estoy: $latitude Long: $longitude")
@@ -188,6 +172,7 @@ class MainActivity : AppCompatActivity() {
                 showError("Sin acceso a Internet")
                 binding.detailsContainerFirstView.isVisible = false
                 binding.detailsContainerFirstView.isVisible = false
+                binding.errorContainer.isVisible = false
             }
     }
 
@@ -270,12 +255,6 @@ class MainActivity : AppCompatActivity() {
 
         try {
             val temp = "${weatherEntity.current.temp.toInt()}"
-            val cityName = ""//weatherEntity.name
-            val country = ""//weatherEntity.sys.country
-            val address = "$cityName, $country"
-            //val dateNow = Calendar.getInstance().time
-            val tempMin = ""//"Min: ${weatherEntity.main.temp_min.toInt()}°"
-            val tempMax = ""//"Max: ${weatherEntity.main.temp_max.toInt()}°"
             var status = ""
             val weatherDescription = weatherEntity.current.weather[0].description
             if(weatherDescription.isNotEmpty()){
@@ -286,17 +265,6 @@ class MainActivity : AppCompatActivity() {
                 "EEEE, d MMMM",
                 Locale.ENGLISH
             ).format(Date(dt * 1000))
-            val sunrise = weatherEntity.current.sunrise
-            val sunriseFormat =
-                SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))
-            val sunset = weatherEntity.current.sunset
-            val sunsetFormat =
-                SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset * 1000))
-            val wind = "${weatherEntity.current.wind_speed} km/h"
-            val pressure = "${weatherEntity.current.pressure} mb"
-            val humidity = "${weatherEntity.current.humidity}%"
-            val feelsLike =
-                getString(R.string.textSensacion) + " ${weatherEntity.current.feels_like.toInt()}$unitSymbol"
             val icon = weatherEntity.current.weather[0].icon.replace('n','d')
             val iconUrl = resources.getIdentifier("ic_weather_$icon", "drawable", packageName)
 
@@ -324,6 +292,9 @@ class MainActivity : AppCompatActivity() {
                     detailsContainerFirstView.isVisible = false
                     detailsContainerSecondView.isVisible = true
                 }
+                buttonSettingsFirstView.setOnClickListener {
+                    IntentSettings()
+                }
 
                 textViewTempInDayTom.text = tempInDayTom
                 textViewTempInNightTom.text = tempInNightTom
@@ -337,13 +308,14 @@ class MainActivity : AppCompatActivity() {
                     detailsContainerFirstView.isVisible = true
                     detailsContainerSecondView.isVisible = false
                 }
-                //windTextViewMine.text = wind
-                //pressureTextViewMine.text = pressure
-                //humidityTextViewMine.text = humidity
+                buttonSettingsSecondView.setOnClickListener {
+                    IntentSettings()
+                }
+
                 detailsContainerFirstView.isVisible = true
                 detailsContainerSecondView.isVisible = false
-                //feelsLiketextView.text = feelsLike
                 iconImageView.load(iconUrl)
+
                 initRecycler(recyclerViewInfoHome,recyclerViewInfoHomeSecondView, weatherEntity)
                 initRecyclerHours(weatherEntity.hourly,recyclerViewHours)
                 initRecyclerDays(weatherEntity.daily,recyclerViewDays)
@@ -357,12 +329,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showError(message: String){
-        Toast.makeText(this,message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showIndicator(visible: Boolean){
-        binding.progressBarIndicator.isVisible = visible
+    private fun requestPermissions(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )){
+            //Provide an additional rationale to the user. This would happen if the user denied the
+            // request previously, but didn´t check the "Don´t ask again" checkbox.
+            Log.i(TAG, "Displaying permission rationale to provide additional context.")
+            showSnackbar(R.string.permission_retionale, android.R.string.ok)
+            {
+                //Request permission
+                startLocationPermissionRequest(this)
+            }
+        }else{
+            //Request permission. It´s possible this can be auto answered if device policy
+            //Si la configuracion del dispositivo define el permiso a un estado prefefinido o
+            //si  el usuario anteriormente activo "No preguntar de nuevo"
+            Log.i(TAG, "Solicitando permiso")
+            startLocationPermissionRequest(this)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -393,6 +378,29 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun showError(message: String){
+        Toast.makeText(this,message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showIndicator(visible: Boolean){
+        binding.progressBarIndicator.isVisible = visible
+    }
+
+    private fun showSnackbar(
+        snackStrId: Int,
+        actionStrId: Int = 0,
+        listener: View.OnClickListener? = null
+    ){
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), getString(snackStrId),
+            BaseTransientBottomBar.LENGTH_INDEFINITE
+        )
+
+        if(actionStrId != 0 && listener != null){
+            snackbar.setAction(getString(actionStrId), listener)
+        }
+        snackbar.show()
     }
 
 }

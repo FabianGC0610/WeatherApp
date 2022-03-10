@@ -36,5 +36,15 @@
     <string name="image_description_item_days">Image relate to Weather Forecast at Day</string>
     <string name="icon_item_info_descripcion">Icon Related with general information of current day</string>
     <string name="Today">Hoy</string>
+    <string name="app_icon_to_splashscreen">App Icon to SplashScreen</string>
+    <string name="one_cloud_for_background_splashscreen">One_cloud_for_background_SplashScreen</string>
+    <string name="button_minimisize">button_to_minimisize_the_cardView</string>
+    <string name="button_to_settings">button_to_open_settings_screen</string>
+    <string name="weather_status_image">image_shows_weather_status</string>
+    <string name="identify_location">representative_icon_to_identify_location</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="button_expand_cardview">button_to_expand_cardView</string>
+    <string name="icon_calendar">icon_to_represent_the_calendar_of_seven_first_days</string>
 
 </resources>

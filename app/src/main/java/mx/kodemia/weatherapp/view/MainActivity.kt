@@ -282,12 +282,10 @@ class MainActivity : AppCompatActivity() {
                 status = (weatherDescription[0].uppercaseChar() + weatherDescription.substring(1))
             }
             val dt = weatherEntity.current.dt
-            val updateAt = "Actualizado: ${
-                SimpleDateFormat(
-                    "hh:mm a",
-                    Locale.ENGLISH
-                ).format(Date(dt * 1000))
-            }"
+            val updateAt = SimpleDateFormat(
+                "EEEE, d MMMM",
+                Locale.ENGLISH
+            ).format(Date(dt * 1000))
             val sunrise = weatherEntity.current.sunrise
             val sunriseFormat =
                 SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))

@@ -37,8 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                tools:ignore="MissingConstraints"
-                tools:visibility="visible">
+                tools:ignore="MissingConstraints">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/materialCardFirstView"
@@ -65,10 +64,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
                             android:layout_marginTop="24dp"
+                            android:contentDescription="@string/button_minimisize"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_baseline_close_fullscreen"
-                            app:tint="@color/white" />
+                            app:tint="@color/white"
+                            tools:ignore="ImageContrastCheck" />
 
                         <ImageView
                             android:id="@+id/imageView3"
@@ -76,66 +77,71 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:layout_marginEnd="24dp"
+                            android:contentDescription="@string/button_to_settings"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_baseline_settings"
-                            app:tint="@color/white" />
+                            app:tint="@color/white"
+                            tools:ignore="ImageContrastCheck" />
 
                         <TextView
                             android:id="@+id/addressTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:text="Mazamitla"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.535"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="TextContrastCheck"
+                            tools:text="Mazamitla, MX" />
 
                         <ImageView
                             android:id="@+id/iconImageView"
                             android:layout_width="250dp"
                             android:layout_height="250dp"
                             android:layout_marginTop="32dp"
+                            android:contentDescription="@string/weather_status_image"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/addressTextView"
+                            tools:ignore="ImageContrastCheck"
                             tools:srcCompat="@tools:sample/avatars" />
 
                         <TextView
                             android:id="@+id/temperatureTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="150dp"
-                            android:text="21"
                             android:textColor="@color/white"
                             android:textSize="124sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/iconImageView" />
+                            app:layout_constraintTop_toBottomOf="@+id/iconImageView"
+                            tools:text="21" />
 
                         <TextView
                             android:id="@+id/statusTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Thunderstorm"
                             android:textColor="@color/white"
                             android:textSize="24sp"
                             app:layout_constraintEnd_toEndOf="@+id/temperatureTextView"
                             app:layout_constraintStart_toStartOf="@+id/temperatureTextView"
-                            app:layout_constraintTop_toBottomOf="@+id/temperatureTextView" />
+                            app:layout_constraintTop_toBottomOf="@+id/temperatureTextView"
+                            tools:text="Relampagos" />
 
                         <TextView
                             android:id="@+id/dateTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Monday, 17 May"
                             android:textColor="@color/white"
                             app:layout_constraintEnd_toEndOf="@+id/statusTextView"
                             app:layout_constraintStart_toStartOf="@+id/statusTextView"
-                            app:layout_constraintTop_toBottomOf="@+id/statusTextView" />
+                            app:layout_constraintTop_toBottomOf="@+id/statusTextView"
+                            tools:text="Monday, 17 May" />
 
                         <View
                             android:id="@+id/dividerCardView"
@@ -167,23 +173,26 @@
                             android:id="@+id/imageView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/identify_location"
                             app:layout_constraintBottom_toBottomOf="@+id/addressTextView"
                             app:layout_constraintEnd_toStartOf="@+id/addressTextView"
                             app:layout_constraintTop_toTopOf="@+id/addressTextView"
                             app:srcCompat="@drawable/ic_baseline_location"
-                            app:tint="@color/white" />
+                            app:tint="@color/white"
+                            tools:ignore="ImageContrastCheck" />
 
                         <TextView
                             android:id="@+id/textViewTempSymbol"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
-                            android:text="°"
                             android:textColor="@color/medium_white"
                             android:textSize="48sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toEndOf="@+id/temperatureTextView"
-                            app:layout_constraintTop_toBottomOf="@+id/iconImageView" />
+                            app:layout_constraintTop_toBottomOf="@+id/iconImageView"
+                            tools:ignore="TextContrastCheck"
+                            tools:text="°C" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerView_InfoHome"
@@ -205,7 +214,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:shadowColor="@color/white"
-                    android:text="Today"
+                    android:text="@string/today"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold"
@@ -273,10 +282,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
                             android:layout_marginTop="24dp"
+                            android:contentDescription="@string/button_expand_cardview"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_baseline_expand"
-                            app:tint="@color/white" />
+                            app:tint="@color/white"
+                            tools:ignore="ImageContrastCheck" />
 
                         <ImageView
                             android:id="@+id/buttonSettingsSecondView"
@@ -284,10 +295,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="24dp"
                             android:layout_marginEnd="24dp"
+                            android:contentDescription="@string/button_to_settings"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_baseline_settings"
-                            app:tint="@color/white" />
+                            app:tint="@color/white"
+                            tools:ignore="ImageContrastCheck" />
 
                         <TextView
                             android:id="@+id/TextViewSevenDays"
@@ -301,7 +314,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.535"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="TextContrastCheck" />
 
                         <ImageView
                             android:id="@+id/iconImageViewSecondView"
@@ -309,6 +323,7 @@
                             android:layout_height="120dp"
                             android:layout_marginStart="32dp"
                             android:layout_marginTop="32dp"
+                            android:contentDescription="@string/weather_status_image"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/TextViewSevenDays"
                             tools:srcCompat="@tools:sample/avatars" />
@@ -318,30 +333,32 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
+                            android:contentDescription="@string/icon_calendar"
                             app:layout_constraintBottom_toBottomOf="@+id/TextViewSevenDays"
                             app:layout_constraintEnd_toStartOf="@+id/TextViewSevenDays"
                             app:layout_constraintTop_toTopOf="@+id/TextViewSevenDays"
                             app:srcCompat="@drawable/ic_baseline_calendar"
-                            app:tint="@color/white" />
+                            app:tint="@color/white"
+                            tools:ignore="ImageContrastCheck" />
 
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="48dp"
-                            android:text="Tomorrow"
+                            android:text="@string/tomorrow"
                             android:textColor="@color/medium_white"
                             android:textSize="20sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/iconImageViewSecondView"
                             app:layout_constraintTop_toTopOf="@+id/iconImageViewSecondView"
+                            tools:ignore="TextContrastCheck"
                             tools:text="Tomorrow" />
 
                         <TextView
                             android:id="@+id/textViewTempInDayTom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="20"
                             android:textColor="@color/white"
                             android:textSize="64sp"
                             android:textStyle="bold"
@@ -354,24 +371,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:text="/17°"
                             android:textColor="@color/medium_white"
                             android:textSize="32sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="@+id/textViewTempInDayTom"
                             app:layout_constraintStart_toEndOf="@+id/textViewTempInDayTom"
-                            tools:text="/17°" />
+                            tools:ignore="TextContrastCheck"
+                            tools:text="/17°C" />
 
                         <TextView
                             android:id="@+id/textViewForecastTom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Rainy"
                             android:textColor="@color/medium_white"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="@+id/textViewTempInDayTom"
                             app:layout_constraintTop_toBottomOf="@+id/textViewTempInDayTom"
+                            tools:ignore="TextContrastCheck"
                             tools:text="Rainy" />
 
                         <androidx.recyclerview.widget.RecyclerView

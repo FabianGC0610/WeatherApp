@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="consultando">Consultando</string>
+    <string name="logo">Clima Personal</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="api_key">37fb2ab875e61b9769e410901358661b</string>
+    <string name="_4">-4°</string>
+    <string name="_35">+35°</string>
+    <string name="days_item_days">Vie</string>
+    <string name="status_item_days">Limpiar</string>
+    <string name="Today">Hoy</string>
+    <string name="today">Hoy</string>
+    <string name="tomorrow">Mañana</string>
+    <string name="unidad_temperatura">Unidad</string>
+    <string name="messages_header">Configuraciones Generales</string>
+    <string name="regresar"><![CDATA[<- Regresar]]></string>
+    <string name="wind">Viento</string>
+    <string name="pressure">Presión</string>
+    <string name="humidity">Humedad</string>
+    <string name="sevenDays">7 Días</string>
+    <string name="textSensacion">Sensación</string>
+    <string name="sunrise">Amanecer</string>
+    <string name="sunset">Atardecer</string>
+    <string name="dev_name">FGC</string>
+    <string name="created_by">Creado por</string>
+    <string name="settings">Comfiguraciones</string>
+    <string name="canceled_action">Acción Cancelada</string>
+</resources>

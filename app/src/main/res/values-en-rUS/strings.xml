@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="wind">Wind</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="sevenDays">7 Days</string>
+    <string name="textSensacion">Feels like</string>
+    <string name="consultando">Retraiving</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="dev_name">FGC</string>
+    <string name="created_by">Created by</string>
+    <string name="logo">Personal Weather</string>
+    <string name="settings">Settings</string>
+    <string name="canceled_action">Canceled Action</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="api_key">37fb2ab875e61b9769e410901358661b</string>
+    <string name="imageviewiconhoursdescription">Image relate to Weather Forecast at Hours</string>
+    <string name="_4">-4°</string>
+    <string name="_35">+35°</string>
+    <string name="status_item_days">Clear</string>
+    <string name="days_item_days">Fri</string>
+    <string name="image_description_item_days">Image relate to Weather Forecast at Day</string>
+    <string name="icon_item_info_descripcion">Icon Related with general information of current day</string>
+    <string name="Today">Today</string>
+    <string name="app_icon_to_splashscreen">App Icon to SplashScreen</string>
+    <string name="one_cloud_for_background_splashscreen">One_cloud_for_background_SplashScreen</string>
+    <string name="button_minimisize">button_to_minimisize_the_cardView</string>
+    <string name="button_to_settings">button_to_open_settings_screen</string>
+    <string name="weather_status_image">image_shows_weather_status</string>
+    <string name="identify_location">representative_icon_to_identify_location</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="button_expand_cardview">button_to_expand_cardView</string>
+    <string name="icon_calendar">icon_to_represent_the_calendar_of_seven_first_days</string>
+    <string name="unidad_temperatura">Unit</string>
+    <string name="messages_header">General Settings</string>
+    <string name="regresar"><![CDATA[<- Return]]></string>
+</resources>

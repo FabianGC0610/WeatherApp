@@ -2,7 +2,6 @@ package mx.kodemia.weatherapp.view
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -17,6 +16,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -31,8 +31,8 @@ import mx.kodemia.weatherapp.core.checkPermissions
 import mx.kodemia.weatherapp.core.startLocationPermissionRequest
 import mx.kodemia.weatherapp.databinding.ActivityMainBinding
 import mx.kodemia.weatherapp.model.*
-import mx.kodemia.weatherapp.network.service.GetWeather
 import mx.kodemia.weatherapp.utils.checkForInternet
+import mx.kodemia.weatherapp.view.adapters.DaysAdapter
 import mx.kodemia.weatherapp.view.adapters.HoursAdapter
 import mx.kodemia.weatherapp.view.adapters.InfoAdapter
 import mx.kodemia.weatherapp.viewmodels.MainActivityViewModel
@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivityError"
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
 
-    private val listInfo: MutableList<RecyclerInfo> = mutableListOf()
+    private val listInfoFirstView: MutableList<RecyclerInfo> = mutableListOf()
+    private val listInfoSecondView: MutableList<RecyclerInfo> = mutableListOf()
     private val listIncons: MutableList<Int> = mutableListOf()
 
     var unit = "metric"
@@ -75,11 +76,30 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions()
             }else{
                 getLastLocation(){ location ->
+                    if(units){
+                        unit = "imperial"
+                    }else{
+                        unit = "metric"
+                    }
+                    if(language){
+                        languageCode = "en"
+                    }else{
+                        languageCode = "es"
+                    }
                     mandarDatosWeather(latitude,longitude,unit,languageCode,"37fb2ab875e61b9769e410901358661b")
                     mandarDatosCity(latitude,longitude,getString(R.string.api_key))
                     observers()
                 }
             }
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        units = sharedPreferences.getBoolean("unitsApp", false)
+        language = sharedPreferences.getBoolean("languageApp", false)
+    }
+
+    private fun IntentSettings() {
+        startActivity(Intent(this,SettingsActivity::class.java))
+        finish()
     }
 
     private fun init(){
@@ -122,42 +142,6 @@ class MainActivity : AppCompatActivity() {
 
      }
 
-    private fun requestPermissions(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )){
-            //Provide an additional rationale to the user. This would happen if the user denied the
-            // request previously, but didn´t check the "Don´t ask again" checkbox.
-            Log.i(TAG, "Displaying permission rationale to provide additional context.")
-            showSnackbar(R.string.permission_retionale, android.R.string.ok)
-            {
-                //Request permission
-                startLocationPermissionRequest(this)
-            }
-        }else{
-            //Request permission. It´s possible this can be auto answered if device policy
-            //Si la configuracion del dispositivo define el permiso a un estado prefefinido o
-            //si  el usuario anteriormente activo "No preguntar de nuevo"
-            Log.i(TAG, "Solicitando permiso")
-            startLocationPermissionRequest(this)
-        }
-    }
-
-    private fun showSnackbar(
-        snackStrId: Int,
-        actionStrId: Int = 0,
-        listener: View.OnClickListener? = null
-    ){
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), getString(snackStrId),
-            BaseTransientBottomBar.LENGTH_INDEFINITE
-        )
-
-        if(actionStrId != 0 && listener != null){
-            snackbar.setAction(getString(actionStrId), listener)
-        }
-        snackbar.show()
-    }
-
     @SuppressLint( "MissingPermission")
     private fun getLastLocation(onLocation: (location: Location) -> Unit){
         Log.d(TAG, "Aqui estoy: $latitude Long: $longitude")
@@ -186,33 +170,52 @@ class MainActivity : AppCompatActivity() {
                 }
             }else{
                 showError("Sin acceso a Internet")
-                binding.detailsContainer.isVisible = false
-                binding.detailsContainerCardView.isVisible = false
-                binding.detailsContainerGeneral.isVisible = false
+                binding.detailsContainerFirstView.isVisible = false
+                binding.detailsContainerFirstView.isVisible = false
+                binding.errorContainer.isVisible = false
             }
     }
 
-    private fun initRecycler(recyclerView: RecyclerView, weatherEntity: OneCall){
+    private fun initRecycler(recyclerViewFirstView: RecyclerView, recyclerViewSecondView: RecyclerView, weatherEntity: OneCall){
 
-        listInfo.add(RecyclerInfo(weatherEntity.current.humidity.toString(),R.string.humidity))
+        listInfoFirstView.add(RecyclerInfo(weatherEntity.current.humidity.toString(),R.string.humidity))
+        listInfoSecondView.add(RecyclerInfo(weatherEntity.daily[1].humidity.toString(),R.string.humidity))
         listIncons.add(R.drawable.humidity)
 
-        listInfo.add(RecyclerInfo(weatherEntity.current.pressure.toString(),R.string.pressure))
+        listInfoFirstView.add(RecyclerInfo(weatherEntity.current.pressure.toString(),R.string.pressure))
+        listInfoSecondView.add(RecyclerInfo(weatherEntity.daily[1].pressure.toString(),R.string.pressure))
         listIncons.add(R.drawable.pressure)
 
-        listInfo.add(RecyclerInfo(weatherEntity.current.wind_speed.toString(),R.string.wind))
+        listInfoFirstView.add(RecyclerInfo(weatherEntity.current.wind_speed.toString() + "km/h",R.string.wind))
+        listInfoSecondView.add(RecyclerInfo(weatherEntity.daily[1].wind_speed.toString() + "km/h",R.string.wind))
         listIncons.add(R.drawable.wind)
 
-        listInfo.add(RecyclerInfo(weatherEntity.current.sunrise.toString(),R.string.sunrise))
+        val sunrise = weatherEntity.current.sunrise
+        val sunriseSecond = weatherEntity.daily[1].sunrise
+        val sunriseFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))
+        val sunriseFormatSecond = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunriseSecond * 1000))
+        listInfoFirstView.add(RecyclerInfo(sunriseFormat,R.string.sunrise))
+        listInfoSecondView.add(RecyclerInfo(sunriseFormatSecond,R.string.sunrise))
         listIncons.add(R.drawable.sunrise)
 
-        listInfo.add(RecyclerInfo(weatherEntity.current.sunset.toString(),R.string.sunset))
+        val sunset = weatherEntity.current.sunset
+        val sunsetSecond = weatherEntity.daily[1].sunset
+        val sunsetFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset * 1000))
+        val sunsetFormatSecond = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunsetSecond * 1000))
+        listInfoFirstView.add(RecyclerInfo(sunsetFormat,R.string.sunset))
+        listInfoSecondView.add(RecyclerInfo(sunsetFormatSecond,R.string.sunset))
         listIncons.add(R.drawable.sunset)
 
-        val adaptador = InfoAdapter(this,listInfo,listIncons)
-        recyclerView.apply {
+        val adapterFirstView = InfoAdapter(this,listInfoFirstView,listIncons)
+        val adapterSecondView = InfoAdapter(this,listInfoSecondView,listIncons)
+        recyclerViewFirstView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-            adapter = adaptador
+            adapter = adapterFirstView
+        }
+
+        recyclerViewSecondView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+            adapter = adapterSecondView
         }
     }
 
@@ -221,6 +224,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
             adapter = adaptador
+        }
+    }
+
+    private fun initRecyclerDays(days: List<Daily>, recyclerView: RecyclerView){
+        val adapterView = DaysAdapter(this,days)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapterView
         }
     }
 
@@ -244,59 +255,70 @@ class MainActivity : AppCompatActivity() {
 
         try {
             val temp = "${weatherEntity.current.temp.toInt()}"
-            val cityName = ""//weatherEntity.name
-            val country = ""//weatherEntity.sys.country
-            val address = "$cityName, $country"
-            //val dateNow = Calendar.getInstance().time
-            val tempMin = ""//"Min: ${weatherEntity.main.temp_min.toInt()}°"
-            val tempMax = ""//"Max: ${weatherEntity.main.temp_max.toInt()}°"
             var status = ""
             val weatherDescription = weatherEntity.current.weather[0].description
             if(weatherDescription.isNotEmpty()){
                 status = (weatherDescription[0].uppercaseChar() + weatherDescription.substring(1))
             }
             val dt = weatherEntity.current.dt
-            val updateAt = "Actualizado: ${
-                SimpleDateFormat(
-                    "hh:mm a",
-                    Locale.ENGLISH
-                ).format(Date(dt * 1000))
-            }"
-            val sunrise = weatherEntity.current.sunrise
-            val sunriseFormat =
-                SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))
-            val sunset = weatherEntity.current.sunset
-            val sunsetFormat =
-                SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset * 1000))
-            val wind = "${weatherEntity.current.wind_speed} km/h"
-            val pressure = "${weatherEntity.current.pressure} mb"
-            val humidity = "${weatherEntity.current.humidity}%"
-            val feelsLike =
-                getString(R.string.textSensacion) + " ${weatherEntity.current.feels_like.toInt()}$unitSymbol"
-            val icon = weatherEntity.current.weather[0].icon
-            val iconUrl = "https://openweathermap.org/img/w/$icon.png"
+            val updateAt = SimpleDateFormat(
+                "EEEE, d MMMM",
+                Locale.ENGLISH
+            ).format(Date(dt * 1000))
+            val icon = weatherEntity.current.weather[0].icon.replace('n','d')
+            val iconUrl = resources.getIdentifier("ic_weather_$icon", "drawable", packageName)
 
-            //binding.addressTextView.text = address
+            val iconSecond = weatherEntity.daily[1].weather.first().icon.replace('n','d')
+            val iconUrlSecond = resources.getIdentifier("ic_weather_$iconSecond","drawable", packageName)
+            val tempInDayTom = weatherEntity.daily[1].temp.day.toInt().toString()
+            val tempInNightTom = "/" + weatherEntity.daily[1].temp.night.toInt().toString() + unitSymbol
+            var statusTom = ""
+            val forecastTom = weatherEntity.daily[1].weather.first().description
+            if(forecastTom.isNotEmpty()){
+                statusTom = (forecastTom[0].uppercaseChar() + forecastTom.substring(1))
+            }
 
             binding.apply {
                 dateTextView.text = updateAt
                 temperatureTextView.text = temp
                 textViewTempSymbol.text = unitSymbol
                 statusTextView.text = status
-                //tempMinTextView.text = tempMin
-                //tempMaxTextViewMine.text = tempMax
-                //sunriseTextViewMine.text = sunriseFormat
-                //sunsetTextViewMine.text = sunsetFormat
-                //windTextViewMine.text = wind
-                //pressureTextViewMine.text = pressure
-                //humidityTextViewMine.text = humidity
-                detailsContainer.isVisible = true
-                detailsContainerCardView.isVisible = true
-                detailsContainerGeneral.isVisible = true
-                //feelsLiketextView.text = feelsLike
+
+                buttonShowDays.setOnClickListener {
+                    detailsContainerFirstView.isVisible = false
+                    detailsContainerSecondView.isVisible = true
+                }
+                buttonMinimizaCardView.setOnClickListener {
+                    detailsContainerFirstView.isVisible = false
+                    detailsContainerSecondView.isVisible = true
+                }
+                buttonSettingsFirstView.setOnClickListener {
+                    IntentSettings()
+                }
+
+                textViewTempInDayTom.text = tempInDayTom
+                textViewTempInNightTom.text = tempInNightTom
+                textViewForecastTom.text = statusTom
+                iconImageViewSecondView.load(iconUrlSecond)
+                buttonExpandCardView.setOnClickListener {
+                    detailsContainerFirstView.isVisible = true
+                    detailsContainerSecondView.isVisible = false
+                }
+                buttonShowHours.setOnClickListener {
+                    detailsContainerFirstView.isVisible = true
+                    detailsContainerSecondView.isVisible = false
+                }
+                buttonSettingsSecondView.setOnClickListener {
+                    IntentSettings()
+                }
+
+                detailsContainerFirstView.isVisible = true
+                detailsContainerSecondView.isVisible = false
                 iconImageView.load(iconUrl)
-                initRecycler(recyclerViewInfoHome, weatherEntity)
+
+                initRecycler(recyclerViewInfoHome,recyclerViewInfoHomeSecondView, weatherEntity)
                 initRecyclerHours(weatherEntity.hourly,recyclerViewHours)
+                initRecyclerDays(weatherEntity.daily,recyclerViewDays)
             }
 
             showIndicator(false)
@@ -307,12 +329,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showError(message: String){
-        Toast.makeText(this,message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showIndicator(visible: Boolean){
-        binding.progressBarIndicator.isVisible = visible
+    private fun requestPermissions(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )){
+            //Provide an additional rationale to the user. This would happen if the user denied the
+            // request previously, but didn´t check the "Don´t ask again" checkbox.
+            Log.i(TAG, "Displaying permission rationale to provide additional context.")
+            showSnackbar(R.string.permission_retionale, android.R.string.ok)
+            {
+                //Request permission
+                startLocationPermissionRequest(this)
+            }
+        }else{
+            //Request permission. It´s possible this can be auto answered if device policy
+            //Si la configuracion del dispositivo define el permiso a un estado prefefinido o
+            //si  el usuario anteriormente activo "No preguntar de nuevo"
+            Log.i(TAG, "Solicitando permiso")
+            startLocationPermissionRequest(this)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -343,6 +378,29 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun showError(message: String){
+        Toast.makeText(this,message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showIndicator(visible: Boolean){
+        binding.progressBarIndicator.isVisible = visible
+    }
+
+    private fun showSnackbar(
+        snackStrId: Int,
+        actionStrId: Int = 0,
+        listener: View.OnClickListener? = null
+    ){
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), getString(snackStrId),
+            BaseTransientBottomBar.LENGTH_INDEFINITE
+        )
+
+        if(actionStrId != 0 && listener != null){
+            snackbar.setAction(getString(actionStrId), listener)
+        }
+        snackbar.show()
     }
 
 }

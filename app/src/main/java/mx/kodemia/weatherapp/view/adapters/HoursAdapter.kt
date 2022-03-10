@@ -28,12 +28,12 @@ class HoursAdapter(private val context: Context, private val listHours: List<Cur
         val hours = listHours.get(position)
         with(holder){
 
-            val icon = hours.weather.first().icon
-            val iconUrl = "https://openweathermap.org/img/w/$icon.png"
+            val icon = hours.weather.first().icon.replace('n','d')
+            val iconUrl = context.resources.getIdentifier("ic_weather_$icon","drawable", context.packageName)
             val dateFormatter = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
             val hour = dateFormatter.format(Date(hours.dt*1000))
 
-            tv_temp_hours.text = hours.temp.toString()
+            tv_temp_hours.text = hours.temp.toInt().toString() + "°"
             iv_icon_hours.load(iconUrl)
             tv_time_hours.text = hour
 
@@ -43,7 +43,6 @@ class HoursAdapter(private val context: Context, private val listHours: List<Cur
     override fun getItemCount(): Int = listHours.size
 
     class HoursHolder(view: View): RecyclerView.ViewHolder(view){
-        val cardView: MaterialCardView = view.findViewById(R.id.cardView_item_hours)
         val iv_icon_hours: ImageView = view.findViewById(R.id.imageViewIconHours)
         val tv_time_hours: TextView = view.findViewById(R.id.textViewTimeHours)
         val tv_temp_hours: TextView = view.findViewById(R.id.textViewTempHours)

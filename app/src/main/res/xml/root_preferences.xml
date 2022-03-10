@@ -3,13 +3,13 @@
     <PreferenceCategory app:title="@string/messages_header">
 
         <SwitchPreferenceCompat
-            app:key="units"
+            app:key="unitsApp"
             app:summaryOff="Celsius"
             app:summaryOn="Farenheit"
             app:title="@string/unidad_temperatura" />
 
         <SwitchPreferenceCompat
-            app:key="language"
+            app:key="languageApp"
             app:summaryOff="Español"
             app:summaryOn="English"
             app:title="Idioma" />

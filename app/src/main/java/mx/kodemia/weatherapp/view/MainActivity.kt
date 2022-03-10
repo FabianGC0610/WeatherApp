@@ -17,6 +17,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -81,10 +82,15 @@ class MainActivity : AppCompatActivity() {
                     observers()
                 }
             }
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        units = sharedPreferences.getBoolean("unitsApp", false)
+        language = sharedPreferences.getBoolean("languageApp", false)
     }
 
     private fun IntentSettings() {
         startActivity(Intent(this,SettingsActivity::class.java))
+        finish()
     }
 
     private fun init(){
@@ -275,12 +281,6 @@ class MainActivity : AppCompatActivity() {
 
         try {
             val temp = "${weatherEntity.current.temp.toInt()}"
-            val cityName = ""//weatherEntity.name
-            val country = ""//weatherEntity.sys.country
-            val address = "$cityName, $country"
-            //val dateNow = Calendar.getInstance().time
-            val tempMin = ""//"Min: ${weatherEntity.main.temp_min.toInt()}°"
-            val tempMax = ""//"Max: ${weatherEntity.main.temp_max.toInt()}°"
             var status = ""
             val weatherDescription = weatherEntity.current.weather[0].description
             if(weatherDescription.isNotEmpty()){
@@ -291,17 +291,6 @@ class MainActivity : AppCompatActivity() {
                 "EEEE, d MMMM",
                 Locale.ENGLISH
             ).format(Date(dt * 1000))
-            val sunrise = weatherEntity.current.sunrise
-            val sunriseFormat =
-                SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))
-            val sunset = weatherEntity.current.sunset
-            val sunsetFormat =
-                SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset * 1000))
-            val wind = "${weatherEntity.current.wind_speed} km/h"
-            val pressure = "${weatherEntity.current.pressure} mb"
-            val humidity = "${weatherEntity.current.humidity}%"
-            val feelsLike =
-                getString(R.string.textSensacion) + " ${weatherEntity.current.feels_like.toInt()}$unitSymbol"
             val icon = weatherEntity.current.weather[0].icon.replace('n','d')
             val iconUrl = resources.getIdentifier("ic_weather_$icon", "drawable", packageName)
 
@@ -345,13 +334,11 @@ class MainActivity : AppCompatActivity() {
                     detailsContainerFirstView.isVisible = true
                     detailsContainerSecondView.isVisible = false
                 }
-                //windTextViewMine.text = wind
-                //pressureTextViewMine.text = pressure
-                //humidityTextViewMine.text = humidity
+
                 detailsContainerFirstView.isVisible = true
                 detailsContainerSecondView.isVisible = false
-                //feelsLiketextView.text = feelsLike
                 iconImageView.load(iconUrl)
+
                 initRecycler(recyclerViewInfoHome,recyclerViewInfoHomeSecondView, weatherEntity)
                 initRecyclerHours(weatherEntity.hourly,recyclerViewHours)
                 initRecyclerDays(weatherEntity.daily,recyclerViewDays)

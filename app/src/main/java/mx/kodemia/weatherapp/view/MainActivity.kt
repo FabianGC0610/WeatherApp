@@ -35,6 +35,8 @@ import mx.kodemia.weatherapp.utils.checkForInternet
 import mx.kodemia.weatherapp.view.adapters.DaysAdapter
 import mx.kodemia.weatherapp.view.adapters.HoursAdapter
 import mx.kodemia.weatherapp.view.adapters.InfoAdapter
+import mx.kodemia.weatherapp.view.formats.Formats
+import mx.kodemia.weatherapp.view.recyclersview.RecyclersView
 import mx.kodemia.weatherapp.viewmodels.MainActivityViewModel
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -45,9 +47,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivityError"
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
 
-    private val listInfoFirstView: MutableList<RecyclerInfo> = mutableListOf()
-    private val listInfoSecondView: MutableList<RecyclerInfo> = mutableListOf()
-    private val listIncons: MutableList<Int> = mutableListOf()
+    private val format = Formats
 
     var unit = "metric"
     var languageCode = "es"
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getWeather(oneCall: OneCall){
-        formatResponse(oneCall)
+        format.formatResponse(oneCall,this,binding)
     }
 
     private fun loadingCity(b: Boolean){
@@ -161,7 +161,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getCity(cityEntity: List<CityEntity>){
-        formatResponseCity(cityEntity)
+        format.formatResponseCity(cityEntity,binding)
+
     }
 
     @SuppressLint( "MissingPermission")
@@ -196,159 +197,6 @@ class MainActivity : AppCompatActivity() {
                 binding.detailsContainerFirstView.isVisible = false
                 binding.errorContainer.isVisible = false
             }
-    }
-
-    private fun initRecycler(recyclerViewFirstView: RecyclerView, recyclerViewSecondView: RecyclerView, weatherEntity: OneCall){
-
-        listInfoFirstView.add(RecyclerInfo(weatherEntity.current.humidity.toString(),R.string.humidity))
-        listInfoSecondView.add(RecyclerInfo(weatherEntity.daily[1].humidity.toString(),R.string.humidity))
-        listIncons.add(R.drawable.humidity)
-
-        listInfoFirstView.add(RecyclerInfo(weatherEntity.current.pressure.toString(),R.string.pressure))
-        listInfoSecondView.add(RecyclerInfo(weatherEntity.daily[1].pressure.toString(),R.string.pressure))
-        listIncons.add(R.drawable.pressure)
-
-        listInfoFirstView.add(RecyclerInfo(weatherEntity.current.wind_speed.toString() + "km/h",R.string.wind))
-        listInfoSecondView.add(RecyclerInfo(weatherEntity.daily[1].wind_speed.toString() + "km/h",R.string.wind))
-        listIncons.add(R.drawable.wind)
-
-        val sunrise = weatherEntity.current.sunrise
-        val sunriseSecond = weatherEntity.daily[1].sunrise
-        val sunriseFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunrise * 1000))
-        val sunriseFormatSecond = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunriseSecond * 1000))
-        listInfoFirstView.add(RecyclerInfo(sunriseFormat,R.string.sunrise))
-        listInfoSecondView.add(RecyclerInfo(sunriseFormatSecond,R.string.sunrise))
-        listIncons.add(R.drawable.sunrise)
-
-        val sunset = weatherEntity.current.sunset
-        val sunsetSecond = weatherEntity.daily[1].sunset
-        val sunsetFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunset * 1000))
-        val sunsetFormatSecond = SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(Date(sunsetSecond * 1000))
-        listInfoFirstView.add(RecyclerInfo(sunsetFormat,R.string.sunset))
-        listInfoSecondView.add(RecyclerInfo(sunsetFormatSecond,R.string.sunset))
-        listIncons.add(R.drawable.sunset)
-
-        val adapterFirstView = InfoAdapter(this,listInfoFirstView,listIncons)
-        val adapterSecondView = InfoAdapter(this,listInfoSecondView,listIncons)
-        recyclerViewFirstView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-            adapter = adapterFirstView
-        }
-
-        recyclerViewSecondView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-            adapter = adapterSecondView
-        }
-    }
-
-    private fun initRecyclerHours(hours: List<Current>, recyclerView: RecyclerView){
-        val adaptador = HoursAdapter(this,hours)
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-            adapter = adaptador
-        }
-    }
-
-    private fun initRecyclerDays(days: List<Daily>, recyclerView: RecyclerView){
-        val adapterView = DaysAdapter(this,days)
-        recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = adapterView
-        }
-    }
-
-    private fun formatResponseCity(cityEntity: List<CityEntity>){
-        val cityName = cityEntity[0].name
-        val country = cityEntity[0].country
-        val address = "$cityName, $country"
-
-        binding.apply {
-            addressTextView.text = address
-        }
-    }
-
-    private fun formatResponse(weatherEntity: OneCall){
-
-        var unitSymbol = "°C"
-
-        if(units){
-            unitSymbol = "°F"
-        }
-
-        try {
-            val temp = "${weatherEntity.current.temp.toInt()}"
-            var status = ""
-            val weatherDescription = weatherEntity.current.weather[0].description
-            if(weatherDescription.isNotEmpty()){
-                status = (weatherDescription[0].uppercaseChar() + weatherDescription.substring(1))
-            }
-            val dt = weatherEntity.current.dt
-            val updateAt = SimpleDateFormat(
-                "EEEE, d MMMM",
-                Locale.ENGLISH
-            ).format(Date(dt * 1000))
-            val icon = weatherEntity.current.weather[0].icon.replace('n','d')
-            val iconUrl = resources.getIdentifier("ic_weather_$icon", "drawable", packageName)
-
-            val iconSecond = weatherEntity.daily[1].weather.first().icon.replace('n','d')
-            val iconUrlSecond = resources.getIdentifier("ic_weather_$iconSecond","drawable", packageName)
-            val tempInDayTom = weatherEntity.daily[1].temp.day.toInt().toString()
-            val tempInNightTom = "/" + weatherEntity.daily[1].temp.night.toInt().toString() + unitSymbol
-            var statusTom = ""
-            val forecastTom = weatherEntity.daily[1].weather.first().description
-            if(forecastTom.isNotEmpty()){
-                statusTom = (forecastTom[0].uppercaseChar() + forecastTom.substring(1))
-            }
-
-            binding.apply {
-                dateTextView.text = updateAt
-                temperatureTextView.text = temp
-                textViewTempSymbol.text = unitSymbol
-                statusTextView.text = status
-
-                buttonShowDays.setOnClickListener {
-                    detailsContainerFirstView.isVisible = false
-                    detailsContainerSecondView.isVisible = true
-                }
-                buttonMinimizaCardView.setOnClickListener {
-                    detailsContainerFirstView.isVisible = false
-                    detailsContainerSecondView.isVisible = true
-                }
-                buttonSettingsFirstView.setOnClickListener {
-                    IntentSettings()
-                }
-
-                textViewTempInDayTom.text = tempInDayTom
-                textViewTempInNightTom.text = tempInNightTom
-                textViewForecastTom.text = statusTom
-                iconImageViewSecondView.load(iconUrlSecond)
-                buttonExpandCardView.setOnClickListener {
-                    detailsContainerFirstView.isVisible = true
-                    detailsContainerSecondView.isVisible = false
-                }
-                buttonShowHours.setOnClickListener {
-                    detailsContainerFirstView.isVisible = true
-                    detailsContainerSecondView.isVisible = false
-                }
-                buttonSettingsSecondView.setOnClickListener {
-                    IntentSettings()
-                }
-
-                detailsContainerFirstView.isVisible = true
-                detailsContainerSecondView.isVisible = false
-                iconImageView.load(iconUrl)
-
-                initRecycler(recyclerViewInfoHome,recyclerViewInfoHomeSecondView, weatherEntity)
-                initRecyclerHours(weatherEntity.hourly,recyclerViewHours)
-                initRecyclerDays(weatherEntity.daily,recyclerViewDays)
-            }
-
-            showIndicator(false)
-        }catch (exception: Exception){
-            showError("Ha ocurrido un error con los datos")
-            Log.e("Error format", "Ha ocurrido un error")
-            showIndicator(false)
-        }
     }
 
     private fun requestPermissions(){
@@ -404,10 +252,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun showError(message: String){
         Toast.makeText(this,message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showIndicator(visible: Boolean){
-        binding.progressBarIndicator.isVisible = visible
     }
 
     private fun showSnackbar(

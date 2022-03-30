@@ -44,5 +44,6 @@
     <string name="regresar"><![CDATA[<- Regresar]]></string>
     <string name="error_message">Acaba de suceder un error del servidor, por favor vuelve más tarde</string>
     <string name="error_image">error_image</string>
+    <string name="na_city">"N/A "</string>
 
 </resources>

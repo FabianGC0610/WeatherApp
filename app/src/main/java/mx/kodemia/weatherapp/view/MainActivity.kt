@@ -122,25 +122,47 @@ class MainActivity : AppCompatActivity() {
     }
 
      private fun observers(){
-         viewModel.getWeatherResponse.observe(this) {weatherEntity: OneCall ->
-             lifecycleScope.launch {
-                 weatherEntity.apply {
-                     formatResponse(weatherEntity)
-                 }
-             }
+         viewModel.errorWather.observe(this,::errorWeather)
+         viewModel.loadingWeather.observe(this,::loadingWeather)
+         viewModel.getWeatherResponse.observe(this,::getWeather)
 
-         }
-
-         viewModel.getCityResponse.observe(this){ cityEntity: List<CityEntity> ->
-             lifecycleScope.launch {
-                 cityEntity.apply {
-                     formatResponseCity(cityEntity)
-                 }
-             }
-
-         }
-
+         viewModel.errorCity.observe(this,::errorCity)
+         viewModel.loadingCity.observe(this,::loadingCity)
+         viewModel.getCityResponse.observe(this,::getCity)
      }
+
+    private fun loadingWeather(b: Boolean){
+
+    }
+
+    private fun errorWeather(b: Boolean){
+        if(b){
+            binding.apply {
+                detailsContainerFirstView.isVisible = false
+                detailsContainerSecondView.isVisible = false
+                errorContainer.isVisible = true
+            }
+        }
+    }
+
+    private fun getWeather(oneCall: OneCall){
+        formatResponse(oneCall)
+    }
+
+    private fun loadingCity(b: Boolean){
+
+    }
+
+    private fun errorCity(b: Boolean){
+        if(b){
+            //toast para avisar que no la encontro
+            binding.addressTextView.text = getString(R.string.na_city)
+        }
+    }
+
+    private fun getCity(cityEntity: List<CityEntity>){
+        formatResponseCity(cityEntity)
+    }
 
     @SuppressLint( "MissingPermission")
     private fun getLastLocation(onLocation: (location: Location) -> Unit){

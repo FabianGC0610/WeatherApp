@@ -48,7 +48,6 @@ class MainActivityViewModel: ViewModel() {
                     getWeatherResponse.postValue(response.body())
                 }else{
                     errorWather.postValue(true)
-                    //binding.errorContainer.isVisible = true // Checar este detalle, (no va)
                 }
                 loadingWeather.postValue(false)
             }catch (io: IOException){

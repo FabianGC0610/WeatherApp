@@ -40,7 +40,7 @@ class MainActivityViewModel: ViewModel() {
             if (response.isSuccessful){
                 getWeatherResponse.postValue(response.body())
             }else {
-                binding.errorContainer.isVisible = true
+                binding.errorContainer.isVisible = true // Checar este detalle, (no va)
             }
         }
     }

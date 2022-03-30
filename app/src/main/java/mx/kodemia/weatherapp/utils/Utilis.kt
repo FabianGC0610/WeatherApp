@@ -23,6 +23,8 @@ fun checkForInternet(context: Context): Boolean{
             //Indica si la red tiene conectividad por datos moviles
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
 
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+
             else -> false
         }
     }else{

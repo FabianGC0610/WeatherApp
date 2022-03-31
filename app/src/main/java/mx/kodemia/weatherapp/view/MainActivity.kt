@@ -61,14 +61,14 @@ class MainActivity : AppCompatActivity() {
         } else {
             getLastLocation() { location ->
                 if (units) {
-                    unit = "imperial"
+                    unit = getString(R.string.imperial)
                 } else {
-                    unit = "metric"
+                    unit = getString(R.string.metric)
                 }
                 if (language) {
-                    languageCode = "en"
+                    languageCode = getString(R.string.english)
                 } else {
-                    languageCode = "es"
+                    languageCode = getString(R.string.spanish)
                 }
                 if (checkForInternet(this)) {
                     sendDataWeather(
@@ -80,12 +80,28 @@ class MainActivity : AppCompatActivity() {
                     )
                     sendDataCity(latitude, longitude, getString(R.string.api_key))
                 } else {
-                    alert.showError("Sin acceso a Internet", this)
+                    alert.showError(getString(R.string.no_internet), this)
+                    binding.buttonRequestService.isVisible = true
+                    binding.progressBarIndicator.isVisible = false
                 }
                 observers()
             }
+            binding.buttonRequestService.setOnClickListener {
+                if(checkForInternet(this)){
+                    binding.progressBarIndicator.isVisible = true
+                    binding.buttonRequestService.isVisible = false
+                    sendDataWeather(latitude,
+                        longitude,
+                        unit,
+                        languageCode,
+                        getString(R.string.api_key))
+                    sendDataCity(latitude, longitude, getString(R.string.api_key))
+                }else{
+                    binding.progressBarIndicator.isVisible = false
+                    alert.showError(getString(R.string.no_internet_yet), this)
+                }
+            }
         }
-
         givePreferences()
     }
 
@@ -164,7 +180,7 @@ class MainActivity : AppCompatActivity() {
 
                     onLocation(taskLocation.result)
                 } else {
-                    Log.w(TAG, "getLastLocation:exception", taskLocation.exception)
+                    Log.w(TAG, getString(R.string.getLastLoc_Excep), taskLocation.exception)
                     alert.showSnackbar(R.string.no_location_detected, activity = this)
                 }
             }
@@ -192,7 +208,6 @@ class MainActivity : AppCompatActivity() {
         ) {
             //Provide an additional rationale to the user. This would happen if the user denied the
             // request previously, but didn´t check the "Don´t ask again" checkbox.
-            Log.i(TAG, "Displaying permission rationale to provide additional context.")
             alert.showSnackbar(R.string.permission_retionale, android.R.string.ok, this)
             {
                 //Request permission
@@ -202,7 +217,6 @@ class MainActivity : AppCompatActivity() {
             //Request permission. It´s possible this can be auto answered if device policy
             //Si la configuracion del dispositivo define el permiso a un estado prefefinido o
             //si  el usuario anteriormente activo "No preguntar de nuevo"
-            Log.i(TAG, "Solicitando permiso")
             location.startLocationPermissionRequest(this)
         }
     }
@@ -213,11 +227,10 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.i(TAG, "onRequestPermissionsResult")
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             when {
                 //Si el flujo es interrumpido, la solicitud de permiso es cancelada y se reciben arrays vacios.
-                grantResults.isEmpty() -> Log.i(TAG, "La interaccion del usuario fue cancelada")
+                grantResults.isEmpty() -> Log.i(TAG, getString(R.string.user_interac_canceled))
 
                 //Permiso Otorgado
                 (grantResults[0] == PackageManager.PERMISSION_GRANTED) -> getLastLocation(this::setupViewData)
@@ -231,7 +244,7 @@ class MainActivity : AppCompatActivity() {
                         //Construye el intent que muestra la ventaa de configuracion del app
                         val intent = Intent().apply {
                             action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                            data = Uri.fromParts("package", "mx.kodemia.climadefabiruchis", null)
+                            data = Uri.fromParts("package", getString(R.string.package_name), null)
                             flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         }
                         startActivity(intent)

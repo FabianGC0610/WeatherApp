@@ -1,7 +1,6 @@
 package mx.kodemia.weatherapp.view.adapters
 
 import android.app.Activity
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.google.android.material.card.MaterialCardView
 import mx.kodemia.weatherapp.R
 import mx.kodemia.weatherapp.core.SharedPreferencesInstance
 import mx.kodemia.weatherapp.model.RecyclerInfo
-import mx.kodemia.weatherapp.model.WeatherEntity
 
 class InfoAdapter(val activity: Activity, val weatherEntity: List<RecyclerInfo>, val icon: List<Int>): RecyclerView.Adapter<InfoAdapter.InfoHolder>() {
 

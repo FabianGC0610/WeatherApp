@@ -45,5 +45,6 @@
     <string name="error_message">Acaba de suceder un error del servidor, por favor vuelve más tarde</string>
     <string name="error_image">error_image</string>
     <string name="na_city">"N/A "</string>
+    <string name="no_city_message">No se pudo encontrar la ciudad de la ubicación</string>
 
 </resources>

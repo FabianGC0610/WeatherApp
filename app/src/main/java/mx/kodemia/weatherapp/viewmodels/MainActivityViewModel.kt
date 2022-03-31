@@ -1,9 +1,5 @@
 package mx.kodemia.weatherapp.viewmodels
 
-import android.content.Context
-import android.content.Intent
-import android.util.Log
-import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +7,8 @@ import kotlinx.coroutines.launch
 import mx.kodemia.weatherapp.databinding.ActivityMainBinding
 import mx.kodemia.weatherapp.model.CityEntity
 import mx.kodemia.weatherapp.model.OneCall
-import mx.kodemia.weatherapp.model.WeatherEntity
 import mx.kodemia.weatherapp.network.service.GetCity
 import mx.kodemia.weatherapp.network.service.GetWeather
-import mx.kodemia.weatherapp.view.SettingsActivity
 import java.io.IOException
 
 class MainActivityViewModel: ViewModel() {

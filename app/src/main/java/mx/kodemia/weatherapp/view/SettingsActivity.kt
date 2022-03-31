@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
 import mx.kodemia.weatherapp.R
-import mx.kodemia.weatherapp.databinding.ActivityMainBinding
 import mx.kodemia.weatherapp.databinding.SettingsActivityBinding
 
 class SettingsActivity : AppCompatActivity() {

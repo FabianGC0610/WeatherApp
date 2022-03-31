@@ -1,12 +1,12 @@
 package mx.kodemia.weatherapp.view.formats
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.preference.PreferenceManager
 import coil.load
+import mx.kodemia.weatherapp.core.Alerts
 import mx.kodemia.weatherapp.databinding.ActivityMainBinding
 import mx.kodemia.weatherapp.model.CityEntity
 import mx.kodemia.weatherapp.model.OneCall
@@ -20,6 +20,7 @@ object Formats {
 
     private var units = false
     private val recycler = RecyclersView
+    private val alert = Alerts
 
     fun formatResponseCity(cityEntity: List<CityEntity>, binding: ActivityMainBinding){
         val cityName = cityEntity[0].name
@@ -32,6 +33,9 @@ object Formats {
     }
 
     fun formatResponse(weatherEntity: OneCall,activity: Activity, binding: ActivityMainBinding){
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        units = sharedPreferences.getBoolean("unitsApp", false)
 
         var unitSymbol = "°C"
 
@@ -107,25 +111,17 @@ object Formats {
                 recycler.initRecyclerDays(weatherEntity.daily,recyclerViewDays,activity)
             }
 
-            showIndicator(false,binding)
+            alert.showIndicator(false,binding)
         }catch (exception: Exception){
-            showError("Ha ocurrido un error con los datos", activity)
+            alert.showError("Ha ocurrido un error con los datos", activity)
             Log.e("Error format", "Ha ocurrido un error")
-            showIndicator(false,binding)
+            alert.showIndicator(false,binding)
         }
     }
 
     private fun IntentSettings(activity: Activity) {
         activity.startActivity(Intent(activity, SettingsActivity::class.java))
         activity.finish()
-    }
-
-    private fun showIndicator(visible: Boolean, binding: ActivityMainBinding){
-        binding.progressBarIndicator.isVisible = visible
-    }
-
-    private fun showError(message: String, context: Context){
-        Toast.makeText(context,message, Toast.LENGTH_LONG).show()
     }
 
 }

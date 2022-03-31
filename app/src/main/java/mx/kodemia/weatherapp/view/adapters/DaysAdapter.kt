@@ -9,9 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.card.MaterialCardView
 import mx.kodemia.weatherapp.R
-import mx.kodemia.weatherapp.model.Current
 import mx.kodemia.weatherapp.model.Daily
 import java.text.SimpleDateFormat
 import java.util.*

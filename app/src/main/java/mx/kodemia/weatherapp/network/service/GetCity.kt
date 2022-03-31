@@ -10,7 +10,7 @@ import retrofit2.Response
 class GetCity {
 
     //Se instancia el servicio de retrofit con la peticion de la Ciudad
-    private val retrofit = RetrofitInstance.RetrofitInstance.getRetrofit().create(City::class.java)
+    private val retrofit = RetrofitInstance.getRetrofit().create(City::class.java)
 
     //Se crea la funcion para mandar la peticion con los parametros necesarios para realizarla
     //Con un tipo de retorno del modelo de la respuesta

@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                 detailsContainerFirstView.isVisible = false
                 detailsContainerSecondView.isVisible = false
                 errorContainer.isVisible = true
+                progressBarIndicator.isVisible = false
             }
         }
     }

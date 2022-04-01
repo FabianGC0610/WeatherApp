@@ -25,8 +25,6 @@ class MainActivityViewModel: ViewModel() {
     val errorCity = MutableLiveData<Boolean>()
     val loadingCity = MutableLiveData<Boolean>()
 
-    private lateinit var binding: ActivityMainBinding
-
     fun onCreate(){
         serviceGetWeather = GetWeather()
         serviceGetCity = GetCity()
@@ -60,7 +58,6 @@ class MainActivityViewModel: ViewModel() {
                     getCityResponse.postValue(response.body())
                 }else{
                     errorCity.postValue(true)
-                    //binding.errorContainer.isVisible = true
                 }
                 loadingCity.postValue(false)
             }catch (io: IOException){

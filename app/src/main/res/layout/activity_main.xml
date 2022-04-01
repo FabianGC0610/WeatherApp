@@ -106,7 +106,7 @@
                             android:contentDescription="@string/button_minimisize"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_close_fullscreen"
+                            app:srcCompat="@drawable/ic_icono_minizar"
                             app:tint="@color/white"
                             tools:ignore="ImageContrastCheck" />
 
@@ -324,7 +324,7 @@
                             android:contentDescription="@string/button_expand_cardview"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_expand"
+                            app:srcCompat="@drawable/ic_icono_expadir"
                             app:tint="@color/white"
                             tools:ignore="ImageContrastCheck" />
 

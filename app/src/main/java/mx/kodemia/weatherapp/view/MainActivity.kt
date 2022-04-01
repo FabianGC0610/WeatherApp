@@ -263,5 +263,4 @@ class MainActivity : AppCompatActivity() {
             notInternetAction()
         }
     }
-
 }

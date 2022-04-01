@@ -56,52 +56,8 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        if (!location.checkPermissions(this)) {
-            requestPermissions()
-        } else {
-            getLastLocation() { location ->
-                if (units) {
-                    unit = getString(R.string.imperial)
-                } else {
-                    unit = getString(R.string.metric)
-                }
-                if (language) {
-                    languageCode = getString(R.string.english)
-                } else {
-                    languageCode = getString(R.string.spanish)
-                }
-                if (checkForInternet(this)) {
-                    sendDataWeather(
-                        latitude,
-                        longitude,
-                        unit,
-                        languageCode,
-                        getString(R.string.api_key)
-                    )
-                    sendDataCity(latitude, longitude, getString(R.string.api_key))
-                } else {
-                    alert.showError(getString(R.string.no_internet), this)
-                    binding.buttonRequestService.isVisible = true
-                    binding.progressBarIndicator.isVisible = false
-                }
-                observers()
-            }
-            binding.buttonRequestService.setOnClickListener {
-                if(checkForInternet(this)){
-                    binding.progressBarIndicator.isVisible = true
-                    binding.buttonRequestService.isVisible = false
-                    sendDataWeather(latitude,
-                        longitude,
-                        unit,
-                        languageCode,
-                        getString(R.string.api_key))
-                    sendDataCity(latitude, longitude, getString(R.string.api_key))
-                }else{
-                    binding.progressBarIndicator.isVisible = false
-                    alert.showError(getString(R.string.no_internet_yet), this)
-                }
-            }
-        }
+        getLastLocationAction()
+
         givePreferences()
     }
 
@@ -253,4 +209,58 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun notInternetAction(){
+        binding.buttonRequestService.setOnClickListener {
+            if(checkForInternet(this)){
+                binding.progressBarIndicator.isVisible = true
+                binding.buttonRequestService.isVisible = false
+                sendDataWeather(latitude,
+                    longitude,
+                    unit,
+                    languageCode,
+                    getString(R.string.api_key))
+                sendDataCity(latitude, longitude, getString(R.string.api_key))
+            }else{
+                binding.progressBarIndicator.isVisible = false
+                alert.showError(getString(R.string.no_internet_yet), this)
+            }
+        }
+    }
+
+    private fun getLastLocationAction(){
+        if (!location.checkPermissions(this)) {
+            requestPermissions()
+        } else {
+            getLastLocation() { location ->
+                if (units) {
+                    unit = getString(R.string.imperial)
+                } else {
+                    unit = getString(R.string.metric)
+                }
+                if (language) {
+                    languageCode = getString(R.string.english)
+                } else {
+                    languageCode = getString(R.string.spanish)
+                }
+                if (checkForInternet(this)) {
+                    sendDataWeather(
+                        latitude,
+                        longitude,
+                        unit,
+                        languageCode,
+                        getString(R.string.api_key)
+                    )
+                    sendDataCity(latitude, longitude, getString(R.string.api_key))
+                } else {
+                    alert.showError(getString(R.string.no_internet), this)
+                    binding.buttonRequestService.isVisible = true
+                    binding.progressBarIndicator.isVisible = false
+                }
+                observers()
+            }
+            notInternetAction()
+        }
+    }
+
 }

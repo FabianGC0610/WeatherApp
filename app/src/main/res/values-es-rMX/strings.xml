@@ -27,4 +27,11 @@
     <string name="created_by">Creado por</string>
     <string name="settings">Comfiguraciones</string>
     <string name="canceled_action">Acción Cancelada</string>
+    <string name="error_message">Acaba de suceder un error del servidor, por favor vuelve más tarde</string>
+    <string name="error_image">error_image</string>
+    <string name="no_city_message">No se pudo encontrar la ciudad de la ubicación</string>
+    <string name="request_service">Solicitar servicio</string>
+    <string name="no_internet">Sin acceso a Internet</string>
+    <string name="no_internet_yet">Aún no se tiene acceso a internet</string>
+    <string name="user_interac_canceled">La interaccion del usuario fue cancelada</string>
 </resources>

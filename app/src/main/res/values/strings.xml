@@ -44,19 +44,19 @@
     <string name="regresar"><![CDATA[<- Regresar]]></string>
     <string name="error_message">Acaba de suceder un error del servidor, por favor vuelve más tarde</string>
     <string name="error_image">error_image</string>
-    <string name="na_city">"N/A "</string>
+    <string name="na_city" translatable="false">"N/A "</string>
     <string name="no_city_message">No se pudo encontrar la ciudad de la ubicación</string>
     <string name="request_service">Solicitar servicio</string>
     <string name="no_internet">Sin acceso a Internet</string>
     <string name="no_internet_yet">Aún no se tiene acceso a internet</string>
-    <string name="main_error">MainActivityError</string>
-    <string name="metric">metric</string>
-    <string name="imperial">imperial</string>
-    <string name="language_var">es</string>
-    <string name="spanish">es</string>
-    <string name="english">en</string>
-    <string name="getLastLoc_Excep">getLastLocation:exception</string>
+    <string name="main_error" translatable="false">MainActivityError</string>
+    <string name="metric" translatable="false">metric</string>
+    <string name="imperial" translatable="false">imperial</string>
+    <string name="language_var" translatable="false">es</string>
+    <string name="spanish" translatable="false">es</string>
+    <string name="english" translatable="false">en</string>
+    <string name="getLastLoc_Excep" translatable="false">getLastLocation:exception</string>
     <string name="user_interac_canceled">La interaccion del usuario fue cancelada</string>
-    <string name="package_name">mx.kodemia.climadefabiruchis</string>
+    <string name="package_name" translatable="false">mx.kodemia.climadefabiruchis</string>
 
 </resources>

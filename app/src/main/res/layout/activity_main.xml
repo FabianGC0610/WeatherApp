@@ -5,8 +5,22 @@
     android:id="@+id/detailsContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@drawable/fondo_montanias"
     tools:context=".view.MainActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonRequestService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/request_service"
+        android:visibility="gone"
+        android:backgroundTint="?attr/colorPrimaryVariant"
+        app:cornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBarIndicator"
@@ -25,12 +39,13 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/errorContainer"
@@ -38,26 +53,13 @@
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="128dp"
-                    android:contentDescription="@string/error_image"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@drawable/error_500" />
-
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textViewError"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="192dp"
                     android:layout_marginEnd="24dp"
-                    android:layout_marginBottom="16dp"
                     android:text="@string/error_message"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -66,7 +68,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,7 +106,7 @@
                             android:contentDescription="@string/button_minimisize"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_close_fullscreen"
+                            app:srcCompat="@drawable/ic_icono_minizar"
                             app:tint="@color/white"
                             tools:ignore="ImageContrastCheck" />
 
@@ -322,7 +324,7 @@
                             android:contentDescription="@string/button_expand_cardview"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_baseline_expand"
+                            app:srcCompat="@drawable/ic_icono_expadir"
                             app:tint="@color/white"
                             tools:ignore="ImageContrastCheck" />
 

@@ -38,4 +38,11 @@
     <string name="unidad_temperatura">Unit</string>
     <string name="messages_header">General Settings</string>
     <string name="regresar"><![CDATA[<- Return]]></string>
+    <string name="error_image">error_image</string>
+    <string name="error_message">A server error just occurred, please come back later</string>
+    <string name="no_city_message">Could not find the city of the location</string>
+    <string name="request_service">Request service</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="no_internet_yet">No internet access yet</string>
+    <string name="user_interac_canceled">User interaction was canceled</string>
 </resources>
